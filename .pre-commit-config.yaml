@@ -1,4 +1,14 @@
 repos:
+  -   repo: https://github.com/pycqa/flake8
+      rev: 7.1.1
+      hooks:
+      -   id: flake8
+
+  -   repo: https://github.com/hhatto/autopep8
+      rev: v2.3.2
+      hooks:
+      -   id: autopep8
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
