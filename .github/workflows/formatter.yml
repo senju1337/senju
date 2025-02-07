@@ -1,0 +1,46 @@
+name: Format
+
+on:
+    pull_request:
+        branches:
+            - "**"
+    push:
+        branches:
+            - "**"
+
+jobs:
+    format:
+        permissions:
+        # Give the default GITHUB_TOKEN write permission to commit and push the
+        # added or changed files to the repository.
+          contents: write
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: ["3.10"]
+
+        steps:
+          - name: Check out source repository
+            uses: actions/checkout@v3
+          - name: Set up Python environment
+            uses: actions/setup-python@v4
+            with:
+              python-version: "3.11"
+          - name: autopep8
+            id: autopep8
+            uses: peter-evans/autopep8@v2
+            with:
+              args: --recursive --in-place --aggressive --aggressive .
+          - name: flake8 Lint
+            uses: py-actions/flake8@v2
+
+          - name: commit back to repository
+            uses: stefanzweifel/git-auto-commit-action@v5
+            with:
+              # These defaults somehow do not work for me, so I've set them
+              # explicitly
+              # The big number is the userid of the bot
+              commit_user_name: github-actions[bot]
+              commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
+              commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com> # defaults to "username <username@users.noreply.github.com>", where "username" belongs to the author of the commit that triggered the run
+              commit_message: "ci: automatic Python Formatter changes"
