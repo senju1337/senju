@@ -10,6 +10,7 @@ requires-python = ">=3.10"
 dependencies = [
 	"jinja2 (>=3.1.5,<4.0.0)",
     "pytest>=7.0.0",
+    "flask (>=3.1.0,<4.0.0)",
 ]
 
 
@@ -26,4 +27,3 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
-
