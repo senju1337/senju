@@ -1,15 +1,18 @@
-# I do not trust python and it's tests, so I'm testing them. May not be worth much, but at least it shows me a few things.
+# I do not trust python and it's tests, so I'm testing them. May not be worth
+# much, but at least it shows me a few things.
 
 import os
-import pytest  # noqa: F401 do not remove this import. This is needed for pytest fixtures to work
+# do not remove this import. This is needed for
+# pytest fixtures to work
+import pytest  # noqa: F401
 
 import senju  # noqa: F401
 
-# Note: these weird arguments are an indicator of what should be dome before. For example,
-# `temp_data_dir` is a function in `conftest.py`. If we put it in the arguments, it seems
-# to run before our test, and the return value becomes a local.
-#
-# This is all very confusing for someone used to Rust's libtest
+# Note: these weird arguments are an indicator of what should be dome
+# before. For example, `temp_data_dir` is a function in `conftest.py`. If we
+# put it in the arguments, it seems to run before our test, and the return
+# value becomes a local. This is all very confusing for someone used to
+# Rust's libtest
 
 
 def test_tests_are_loaded():
@@ -22,4 +25,3 @@ def test_temp_data_dir(temp_data_dir):
     with open(testpath, "w") as f:
         f.write("that dir actually works")
     os.remove(testpath)
-
