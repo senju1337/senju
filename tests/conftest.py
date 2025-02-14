@@ -8,4 +8,3 @@ import pytest
 def temp_data_dir():
     """Create a temporary directory for test data"""
     return Path(tempfile.mkdtemp())
-
