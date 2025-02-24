@@ -1,5 +1,11 @@
-from __future__ import annotations
+from flask import Flask, render_template
+
+app = Flask(__name__)
 
 
-def main():
-    print("hello world")
+@app.route("/")
+def index():
+    context = {
+        "number": 1337
+    }
+    return render_template("index.jinja", context=context, title="Senju")
