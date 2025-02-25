@@ -1,5 +1,6 @@
 # do not remove this import. This is needed for
 # pytest fixtures to work
+from pathlib import Path
 import pytest  # noqa: F401
 
 from senju.haiku import Haiku
@@ -36,6 +37,7 @@ def test_save_and_load_haiku(store_manager: StoreManager):
     assert h == h_loaded
 
 
-def test_load_latest_with_empty_store(store_manager: StoreManager):
-    h = store_manager.load_latest_haiku()
+def test_load_latest_with_empty_store(temp_data_dir):
+    store = StoreManager(temp_data_dir / "empty_store.json")
+    h = store.get_id_of_latest_haiku()
     assert h is None
