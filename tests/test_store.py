@@ -25,7 +25,7 @@ def test_save_and_load_any(store_manager: StoreManager):
 
 
 def test_save_and_load_haiku(store_manager: StoreManager):
-    h = Haiku(text="foobar")
+    h = Haiku(lines=["foobar", "qux"])
     hid = store_manager.save_haiku(h)
     h_loaded = store_manager.load_haiku(hid)
 
