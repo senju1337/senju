@@ -25,16 +25,16 @@
 						<div class="hidden md:block">
 							<div class="ml-10 flex items-baseline space-x-4">
 								<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-								<a href="{{ url_for(urls['home']) }}" 
+								<a href="{{ url_for('index_view') }}" 
    class="rounded-md px-3 py-2 text-sm font-medium 
-   {% if request.endpoint == urls['home'] %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}"
+   {% if request.endpoint == 'index_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}"
 >
     Start
 </a>
 
-<a href="{{ url_for(urls['haiku']) }}" 
-   class="rounded-md px-3 py-2 text-sm font-medium 
-   {% if request.endpoint == urls['haiku'] %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}"
+<a href="{{ url_for('haiku_view') }}" 
+   class="rounded-md px-3 py-2 text-sm font-mediRefs: OPS-11um 
+   {% if request.endpoint == 'haiku_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}"
 >
     Haiku
 </a>
