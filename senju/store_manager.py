@@ -42,10 +42,10 @@ class StoreManager:
     def save_haiku(self, data: Haiku) -> int:
         return self._save(data.__dict__)
 
-    def load_latest_haiku(self) -> Optional[Haiku]:
+    def get_id_of_latest_haiku(self) -> Optional[int]:
         try:
             id = self._db.all()[-1].doc_id
-            self.load_haiku(id)
+            return id
         except IndexError as e:
             self.logger.error(f"The database seems to be empty: {e}")
             return None
