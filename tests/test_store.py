@@ -5,7 +5,7 @@ import pytest  # noqa: F401
 from senju.store_manager import StoreManager  # noqa: F401
 
 
-def test_temp_data_dir(store_manager: StoreManager):
+def test_save_and_load_any(store_manager: StoreManager):
     thing = {
         "color": "blue",
         "number": 19,
@@ -13,9 +13,11 @@ def test_temp_data_dir(store_manager: StoreManager):
             "no": "yes"
         }
     }
-    thing_id = store_manager.save(thing)
-    thing_loaded = store_manager.load(thing_id)
+    thing_id = store_manager._save(thing)
+    thing_loaded = store_manager._load(thing_id)
+
     if thing_loaded is None:
-        assert False, "the store manager load did not return anything"
+        assert False, "store manager load did not return anything but \
+            should have"
     for key in thing.keys():
         assert thing[key] == thing_loaded[key]
