@@ -1,6 +1,5 @@
 # do not remove this import. This is needed for
 # pytest fixtures to work
-from pathlib import Path
 import pytest  # noqa: F401
 
 from senju.haiku import Haiku
