@@ -9,9 +9,6 @@ app = Flask(__name__)
 
 store = StoreManager(Path("/tmp/store.db"))
 
-testh = Haiku("hello world this is a haiku (not)")
-some_uuid = store.save_haiku(testh)
-
 
 @app.route("/")
 def index_view():
