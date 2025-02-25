@@ -14,4 +14,4 @@ def temp_data_dir():
 
 @pytest.fixture(scope="session")
 def store_manager(temp_data_dir):
-    return StoreManager(temp_data_dir/"store.db")
+    return StoreManager(temp_data_dir / "store.db")
