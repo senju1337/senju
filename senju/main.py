@@ -37,6 +37,6 @@ def haiku_view(haiku_id):
     }
 
     return render_template(
-        "haiku.jinja",
+        "haiku.html",
         context=context,
         title="Haiku of the Day")
