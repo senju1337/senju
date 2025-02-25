@@ -1,6 +1,6 @@
 # do not remove this import. This is needed for
 # pytest fixtures to work
-import pytest
+import pytest  # noqa: F401
 
 from senju.store_manager import StoreManager  # noqa: F401
 
