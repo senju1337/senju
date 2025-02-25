@@ -1,17 +1,18 @@
-# syntax=docker/dockerfile:1
-
-FROM python:3.12-alpine
+FROM python:3.12-alpine AS base
 
 # VENV not needed in docker container
 ENV POETRY_VIRTUALENVS_CREATE=false 
 
 WORKDIR /app
 
-COPY . .
+COPY . . 
 
 # Install dependencies
 RUN pip install poetry
 RUN poetry install
+
+
+FROM base as dev
 
 # Expose development port
 EXPOSE 5000
