@@ -17,11 +17,11 @@ class StoreManager:
         self._db = TinyDB(path_to_db)
 
     def new_id(self) -> UUID:
-        unix_timestamp: int = int(time.time())
         _guard: int = 0
         while True:
+            unix_timestamp: int = int(time.time())
             id = uuid1(node=None, clock_seq=unix_timestamp)
-            if len(self._query(Query().id == id)) > 0:
+            if len(self._query(Query().id == id)) < 1:
                 break
             _guard += 1
             if _guard > 100:
@@ -33,18 +33,18 @@ class StoreManager:
         return self._db.search(query)
 
     def load(self, key: UUID) -> Optional[dict]:
-        results = self._query(Query().id == key)
+        results = self._query(Query().id == str(key))
         if len(results) < 1:
             raise Exception("foobar")
         elif len(results) > 2:
             raise KeyError("The requested item did not exist in our database")
         else:
-            return results[0]
+            return results[0]["data"]
 
     def save(self, data: dict) -> UUID:
         id = self.new_id()
         self._db.insert({
-            "id": id,
+            "id": str(id),
             "data": data
         })
         return id
