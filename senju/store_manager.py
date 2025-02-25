@@ -5,6 +5,8 @@ from logging import Logger
 
 from tinydb.queries import QueryImpl
 
+from senju.haiku import Haiku
+
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")
 
 
@@ -29,3 +31,21 @@ class StoreManager:
 
     def _save(self, data: dict) -> int:
         return self._db.insert(data)
+
+    def load_haiku(self, key: int) -> Optional[Haiku]:
+        raw_haiku: dict | None = self._load(key)
+        if raw_haiku is None:
+            return None
+        h = Haiku(**raw_haiku)
+        return h
+
+    def save_haiku(self, data: Haiku) -> int:
+        return self._save(data.__dict__)
+
+    def load_latest_haiku(self) -> Optional[Haiku]:
+        try:
+            id = self._db.all()[-1].doc_id
+            self.load_haiku(id)
+        except IndexError as e:
+            self.logger.error(f"The database seems to be empty: {e}")
+            return None
