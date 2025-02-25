@@ -2,6 +2,7 @@
 # pytest fixtures to work
 import pytest  # noqa: F401
 
+from senju.haiku import Haiku
 from senju.store_manager import StoreManager  # noqa: F401
 
 
@@ -21,3 +22,20 @@ def test_save_and_load_any(store_manager: StoreManager):
             should have"
     for key in thing.keys():
         assert thing[key] == thing_loaded[key]
+
+
+def test_save_and_load_haiku(store_manager: StoreManager):
+    h = Haiku(text="foobar")
+    hid = store_manager.save_haiku(h)
+    h_loaded = store_manager.load_haiku(hid)
+
+    if h_loaded is None:
+        assert False, "store manager load_haiku did not return anything \
+            but should have"
+
+    assert h == h_loaded
+
+
+def test_load_latest_with_empty_store(store_manager: StoreManager):
+    h = store_manager.load_latest_haiku()
+    assert h is None
