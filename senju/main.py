@@ -1,4 +1,3 @@
-from logging import Logger
 from pathlib import Path
 from flask import Flask, redirect, render_template, url_for
 
