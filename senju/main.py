@@ -26,8 +26,6 @@ def haiku_index_view():
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
-    logger = Logger(__name__)
-    logger.debug(haiku_id)
     haiku: Haiku | None = store.load_haiku(haiku_id)
     if haiku is None:
         # TODO: add "haiku not found" page
