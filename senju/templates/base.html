@@ -25,12 +25,22 @@
 						<div class="hidden md:block">
 							<div class="ml-10 flex items-baseline space-x-4">
 								<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-								<a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
-									aria-current="page">Start</a>
+								<a href="{{ url_for('index_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'index_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Start
+								</a>
+
+								<a href="{{ url_for('haiku_index_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-mediRefs: OPS-11um
+   {% if request.endpoint == 'haiku_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Haiku
+								</a>
+
 								<a href="#"
-									class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Haiku</a>
-								<a href="#"
-									class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Information</a>
+									class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+									Information
+								</a>
 							</div>
 						</div>
 					</div>
@@ -114,7 +124,7 @@
 			</div>
 		</nav>
 
-		<header class="bg-violet-500 shadow-sm flex flex-row items-stretch gap-6 
+		<header class="bg-violet-500 shadow-sm flex flex-row items-stretch gap-6
 				px-6 py-3">
 			<div class="flex-1 place-self-center">
 				<h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ title }}</h1>

@@ -2,17 +2,15 @@
 name = "senju"
 version = "0.1.0"
 description = "API / Webservice for Phrases/Words/Kanji/Haiku"
-authors = [
-    {name = "PlexSheep",email = "software@cscherr.de"}
-]
+authors = [{ name = "Christoph J. Scherr", email = "software@cscherr.de" }]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
 	"jinja2 (>=3.1.5,<4.0.0)",
-    "pytest>=7.0.0",
-    "flask (>=3.1.0,<4.0.0)",
+	"pytest>=7.0.0",
+	"flask (>=3.1.0,<4.0.0)",
+	"tinydb (>=3.1.0,<4.0.0)",
 ]
-
 
 
 [build-system]
