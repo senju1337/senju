@@ -42,6 +42,6 @@ def haiku_view(haiku_id):
 @app.route("/prompt")
 def prompt_view():
     return render_template(
-        "prompt.jinja",
+        "prompt.html",
         title="Haiku generation"
     )
