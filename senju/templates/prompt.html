@@ -57,10 +57,12 @@ document.getElementById("submit-btn").addEventListener("click", function() {
             },
             body: JSON.stringify({'prompt': userInput})
         })
-        .then(response => response.json())
+        .then(response => response.text())
         .then(data => {
             console.log(data);
-            responseText.innerHTML = data[0] + "<br>" + data[1] + "<br>" + data[2];
+            //responseText.innerHTML = data[0] + "<br>" + data[1] + "<br>" + data[2];
+            let id = parseInt(data, 10);
+            window.location.replace("/haiku/"+id);
         })
         .catch(error => {
             document.getElementById('result').innerHTML = '<strong>Error:</strong> ' + error.message;

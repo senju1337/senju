@@ -55,5 +55,6 @@ def generate_haiku():
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
-    haiku = request_haiku(prompt)  
-    return haiku.get_json()
+    haiku = request_haiku(prompt)
+    id = store.save_haiku(haiku)
+    return str(id)
