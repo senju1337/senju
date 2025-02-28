@@ -1,13 +1,13 @@
 FROM python:3.12-alpine AS base
 
-# VENV not needed in docker container
-ENV POETRY_VIRTUALENVS_CREATE=false 
+ENV POETRY_VIRTUALENVS_CREATE=true
+ENV FLASK_APP=senju/main.py
 
 COPY ./entrypoint.sh /
 
 WORKDIR /app
 
-COPY . . 
+COPY . .
 
 # Install dependencies
 RUN apk add curl
