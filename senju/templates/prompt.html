@@ -1,4 +1,4 @@
-{% extends "base.jinja" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="flex flex-col items-center justify-center min-h-screen bg-violet-900 text-white p-6">
@@ -48,10 +48,24 @@ document.getElementById("submit-btn").addEventListener("click", function() {
         responseText.textContent = "🤖 AI is thinking...";
         responseBox.classList.remove("opacity-0");
 
-        // Simulated AI response delay
-        setTimeout(() => {
-            responseText.textContent = `"${userInput}" sounds interesting! Let's explore more! 🌟`;
-        }, 1500);
+        console.log(userInput );
+
+        fetch('/generate_haiku', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({'prompt': userInput})
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            responseText.innerHTML = data[0] + "<br>" + data[1] + "<br>" + data[2];
+        })
+        .catch(error => {
+            document.getElementById('result').innerHTML = '<strong>Error:</strong> ' + error.message;
+        });
+
     }
 });
 </script>
