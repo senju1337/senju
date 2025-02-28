@@ -1,7 +1,6 @@
 from pathlib import Path
 from flask import Flask, redirect, render_template, url_for, request
 
-from senju import haiku
 from senju.ai_gen import request_haiku
 from senju.haiku import Haiku
 from senju.store_manager import StoreManager
