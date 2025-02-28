@@ -13,6 +13,7 @@ Haiku (俳句) is a type of short form poetry that originated in Japan. Traditio
 phrases composed of 17 morae (called on in Japanese) in a 5, 7, 5 pattern that include a kireji, 
 or "cutting word" and a kigo, or seasonal reference.
 
+The poem must contain the subjects of the user input.
 You must return only the poem and nothing else.
 You must return the poem in a json format in the following format:
 {
