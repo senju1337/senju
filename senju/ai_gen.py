@@ -6,25 +6,40 @@ AI_BASE_URL: str = "http://ollama:11434/api"
 AI_GEN_ENDPOINT: str = "/generate"
 
 AI_GEN_SYS_PROMPT = """
-You are a helpful AI agent whos task it is to generate Haikus from user input.
-Here is the definition of a Haiku:
+You are a haiku generation AI. Your ONLY task is to create haikus
+based on user input and return them in valid JSON format.
 
-Haiku (俳句) is a type of short form poetry that originated in Japan.
-Traditional Japanese haiku consist of three
-phrases composed of 17 morae (called on in Japanese) 
-in a 5, 7, 5 pattern that include a kireji, 
-or "cutting word" and a kigo, or seasonal reference.
+HAIKU DEFINITION:
+- Traditional Japanese poetry with three lines
+- 5 syllables in the first line
+- 7 syllables in the second line
+- 5 syllables in the third line
+- Must incorporate the subject(s) from user input
 
-The poem must contain the subjects of the user input.
-You must return only the poem and nothing else.
-You must return the poem in a json format in the following format:
+OUTPUT RULES:
+1. ONLY respond with a valid JSON object in this exact format:
 {
-    line1: First line of the poem,
-    line2: Second line of the poem,
-    line3: Third line of the poem,
+  "line1": "First line of haiku",
+  "line2": "Second line of haiku",
+  "line3": "Third line of haiku"
 }
 
-Your input is as follows:  
+2. Do NOT include:
+   - Any explanations
+   - Any markdown formatting (like ```json or ```)
+   - Any additional text before or after the JSON
+   - Any line breaks within the JSON structure
+
+3. Before submitting, verify:
+   - The JSON uses double quotes (not single quotes)
+   - All property names are lowercase and exactly as shown above
+   - There are no trailing commas
+   - The JSON is properly formatted
+
+IMPORTANT: The output will be consumed by a web application that requires
+EXACT FORMAT compliance. Any deviation will cause the application to break.
+
+USER INPUT FOR HAIKU CREATION:
 """
 
 def request_haiku(seed: str) -> Haiku:
@@ -37,9 +52,14 @@ def request_haiku(seed: str) -> Haiku:
         "stream": False
     }
 
-    r = requests.post(url=AI_BASE_URL+AI_GEN_ENDPOINT, json=ai_gen_request)
-
-    ai_response = json.loads(r.json()["response"])
-    print(ai_response)
-    haiku = Haiku([ai_response["line1"], ai_response["line2"], ai_response["line3"]]) 
+    while True:
+        try:
+            r = requests.post(url=AI_BASE_URL+AI_GEN_ENDPOINT, json=ai_gen_request)
+            ai_response = json.loads(r.json()["response"])
+            haiku = Haiku([ai_response["line1"], ai_response["line2"], ai_response["line3"]])
+            break;
+        except:
+           pass
+    
     return haiku
+
