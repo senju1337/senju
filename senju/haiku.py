@@ -66,7 +66,7 @@ class Haiku:
 
         while True:
             try:
-                r = requests.post(url=AI_BASE_URL+AI_GEN_ENDPOINT,
+                r = requests.post(url=AI_BASE_URL + AI_GEN_ENDPOINT,
                                   json=ai_gen_request)
                 ai_response = json.loads(r.json()["response"])
                 haiku = Haiku(
