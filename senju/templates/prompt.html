@@ -60,7 +60,6 @@ document.getElementById("submit-btn").addEventListener("click", function() {
         .then(response => response.text())
         .then(data => {
             console.log(data);
-            //responseText.innerHTML = data[0] + "<br>" + data[1] + "<br>" + data[2];
             let id = parseInt(data, 10);
             window.location.href = "/haiku/"+id;
         })
