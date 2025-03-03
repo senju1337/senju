@@ -1,8 +1,12 @@
+from __future__ import annotations
+
 import json
+
 import requests
+
 from senju.haiku import Haiku
 
-AI_BASE_URL: str = "http://ollama:11434/api" 
+AI_BASE_URL: str = "http://ollama:11434/api"
 AI_GEN_ENDPOINT: str = "/generate"
 
 AI_GEN_SYS_PROMPT = """
@@ -42,10 +46,11 @@ EXACT FORMAT compliance. Any deviation will cause the application to break.
 USER INPUT FOR HAIKU CREATION:
 """
 
+
 def request_haiku(seed: str) -> Haiku:
     """This function prompts the ai to generate
     the hauku based on the user input"""
-    
+
     ai_gen_request = {
         "model": "llama3.2:1b",
         "prompt": f"{AI_GEN_SYS_PROMPT}{seed}",
@@ -54,12 +59,17 @@ def request_haiku(seed: str) -> Haiku:
 
     while True:
         try:
-            r = requests.post(url=AI_BASE_URL+AI_GEN_ENDPOINT, json=ai_gen_request)
+            r = requests.post(url=AI_BASE_URL+AI_GEN_ENDPOINT,
+                              json=ai_gen_request)
             ai_response = json.loads(r.json()["response"])
-            haiku = Haiku([ai_response["line1"], ai_response["line2"], ai_response["line3"]])
-            break;
-        except:
-           pass
-    
-    return haiku
+            haiku = Haiku(
+                [
+                    ai_response["line1"],
+                    ai_response["line2"],
+                    ai_response["line3"]
+                ])
+            break
+        except json.JSONDecodeError:
+            continue
 
+    return haiku

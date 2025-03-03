@@ -1,8 +1,10 @@
-from typing import Optional
-from tinydb import TinyDB
-from pathlib import Path
-from logging import Logger
+from __future__ import annotations
 
+from logging import Logger
+from pathlib import Path
+from typing import Optional
+
+from tinydb import TinyDB
 from tinydb.queries import QueryImpl
 
 from senju.haiku import Haiku

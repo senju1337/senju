@@ -1,7 +1,10 @@
 # I do not trust python and it's tests, so I'm testing them. May not be worth
 # much, but at least it shows me a few things.
 
+from __future__ import annotations
+
 import os
+
 # do not remove this import. This is needed for
 # pytest fixtures to work
 import pytest  # noqa: F401

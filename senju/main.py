@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from pathlib import Path
-from flask import Flask, redirect, render_template, url_for, request
+
+from flask import Flask, redirect, render_template, request, url_for
 
 from senju.ai_gen import request_haiku
 from senju.haiku import Haiku
@@ -47,13 +50,15 @@ def prompt_view():
         title="Haiku generation"
     )
 
+
 @app.route("/generate_haiku", methods=['POST'])
 def generate_haiku():
     prompt = "a"
-    print("Generation function")
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
-    haiku = request_haiku(prompt)
-    id = store.save_haiku(haiku)
-    return str(id)
+        haiku = request_haiku(prompt)
+        id = store.save_haiku(haiku)
+        return str(id)
+    else:
+        return "Method not allowed", 405
