@@ -50,7 +50,7 @@ document.getElementById("submit-btn").addEventListener("click", function() {
 
         console.log(userInput );
 
-        fetch('/generate_haiku', {
+        fetch('/api/v1/haiku', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -4,7 +4,6 @@ from pathlib import Path
 
 from flask import Flask, redirect, render_template, request, url_for
 
-from senju.ai_gen import request_haiku
 from senju.haiku import Haiku
 from senju.store_manager import StoreManager
 
@@ -51,13 +50,13 @@ def prompt_view():
     )
 
 
-@app.route("/generate_haiku", methods=['POST'])
+@app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
     prompt = "a"
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
-        haiku = request_haiku(prompt)
+        haiku = Haiku.request_haiku(prompt)
         id = store.save_haiku(haiku)
         return str(id)
     else:
