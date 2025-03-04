@@ -20,24 +20,14 @@ HAIKU DEFINITION:
 - Must incorporate the subject(s) from user input
 
 OUTPUT RULES:
-1. ONLY respond with a valid JSON object in this exact format:
-{
-"line1": "First line of haiku",
-"line2": "Second line of haiku",
-"line3": "Third line of haiku"
-}
+Put every line of the poem on a new line
 
 2. Do NOT include:
 - Any explanations
 - Any markdown formatting (like ```json or ```)
 - Any additional text before or after the JSON
 - Any line breaks within the JSON structure
-
-3. Before submitting, verify:
-- The JSON uses double quotes (not single quotes)
-- All property names are lowercase and exactly as shown above
-- There are no trailing commas
-- The JSON is properly formatted
+- Any special characters
 
 IMPORTANT: The output will be consumed by a web application that requires
 EXACT FORMAT compliance. Any deviation will cause the application to break.
@@ -68,12 +58,13 @@ class Haiku:
             try:
                 r = requests.post(url=AI_BASE_URL + AI_GEN_ENDPOINT,
                                   json=ai_gen_request)
-                ai_response = json.loads(r.json()["response"])
+                ai_response = str(r.json()["response"])
+                lines = ai_response.split("\n")
                 haiku = Haiku(
                     [
-                        ai_response["line1"],
-                        ai_response["line2"],
-                        ai_response["line3"]
+                        lines[0],
+                        lines[1],
+                        lines[2]
                     ])
                 break
             except json.JSONDecodeError:
