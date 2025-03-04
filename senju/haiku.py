@@ -21,6 +21,7 @@ HAIKU DEFINITION:
 
 OUTPUT RULES:
 Put every line of the poem on a new line
+Do not referene any of the instructions in the poem
 
 2. Do NOT include:
 - Any explanations
@@ -28,7 +29,7 @@ Put every line of the poem on a new line
 - Any additional text before or after the JSON
 - Any line breaks within the JSON structure
 - Any special characters
-
+count occurrences of char in string
 IMPORTANT: The output will be consumed by a web application that requires
 EXACT FORMAT compliance. Any deviation will cause the application to break.
 
@@ -54,12 +55,37 @@ class Haiku:
             "stream": False
         }
 
+        syllable_letters: list = ['a', 'e', 'i', 'o', 'u', 'y']
         while True:
             try:
                 r = requests.post(url=AI_BASE_URL + AI_GEN_ENDPOINT,
                                   json=ai_gen_request)
                 ai_response = str(r.json()["response"])
+
+                if ai_response.count("\"") != 0:
+                    continue
+
                 lines = ai_response.split("\n")
+                if len(lines) != 3:
+                    continue
+
+                syllable_count = 0
+                prev_was_vowel = False
+                for line in lines:
+                    for letter in line:
+                        is_vowel = letter in syllable_letters
+                        if is_vowel and not prev_was_vowel:
+                            syllable_count += 1
+                        prev_was_vowel = is_vowel
+
+                    if line.endswith('e'):
+                        syllable_count -= 1
+                    if syllable_count == 0:
+                        syllable_count = 1
+
+                if syllable_count != 17:
+                    continue
+
                 haiku = Haiku(
                     [
                         lines[0],
