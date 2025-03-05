@@ -20,7 +20,9 @@
 				<div class="flex h-16 items-center justify-between">
 					<div class="flex items-center">
 						<div class="shrink-0">
-							<img class="size-8" src="{{ url_for('static', filename='img/senju-nobg.svg') }}" alt="選集">
+							<a href = "{{ url_for('index_view') }}">
+							<img class="size-8" src="{{ url_for('static', filename='img/senju-nobg.svg') }}" alt="選集",>
+							</a>
 						</div>
 						<div class="hidden md:block">
 							<div class="ml-10 flex items-baseline space-x-4">
@@ -32,11 +34,15 @@
 								</a>
 
 								<a href="{{ url_for('haiku_index_view') }}"
-									class="rounded-md px-3 py-2 text-sm font-mediRefs: OPS-11um
+									class="rounded-md px-3 py-2 text-sm font-medium
    {% if request.endpoint == 'haiku_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
 									Haiku
 								</a>
-
+<a href="{{ url_for('prompt_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'prompt_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Haiku generation
+								</a>
 								<a href="#"
 									class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
 									Information
