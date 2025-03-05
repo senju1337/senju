@@ -52,7 +52,6 @@ def prompt_view():
 
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
-    prompt = "a"
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
