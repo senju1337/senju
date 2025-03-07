@@ -51,14 +51,29 @@
         </div> 
         
         <div id="response-box" class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center opacity-0 transition-opacity duration-500 ease-in-out">
-            <h2 class="text-2xl font-semibold text-violet-700">Response:</h2>
+            <h2 class="text-2xl font-semibold text-violet-700">AI recognized the following:</h2>
             <p id="ai-response" class="text-lg text-gray-700 mt-2 italic">Waiting for input...</p>
-            <button id="submit-button" type="submit" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                Yes
-            </button>
-            <button id="submit-button" type="submit" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-                No
-            </button>
+            <div class="flex justify-center space-x-4">
+                <button id="yes-button" type="button" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Generate Haiku
+                </button>
+                <button id="no-button" type="button" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Input new image
+                </button>
+            </div>
+        </div>
+        
+        <!-- New generating haiku div that appears after "Yes" is clicked -->
+        <div id="generating-haiku-box" class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center hidden transition-opacity duration-500 ease-in-out">
+            <h2 class="text-2xl font-semibold text-violet-700">Generating Haiku</h2>
+            <div class="flex justify-center mt-4">
+                <div class="loader animate-pulse flex space-x-4">
+                    <div class="w-3 h-3 bg-violet-600 rounded-full"></div>
+                    <div class="w-3 h-3 bg-violet-600 rounded-full"></div>
+                    <div class="w-3 h-3 bg-violet-600 rounded-full"></div>
+                </div>
+            </div>
+            <p class="text-lg text-gray-700 mt-4 italic">Creating a beautiful haiku based on your image...</p>
         </div>
     </div>
 
@@ -72,6 +87,9 @@
         const responseBox = document.getElementById('response-box');
         const submitButton = document.getElementById('submit-button');
         const errorMessage = document.getElementById('error-message');
+        const yesButton = document.getElementById('yes-button');
+        const noButton = document.getElementById('no-button');
+        const generatingHaikuBox = document.getElementById('generating-haiku-box');
         
         let imageUploaded = false;
 
@@ -107,6 +125,7 @@
             
             imageUploaded = false;
             responseBox.classList.add('opacity-0');
+            generatingHaikuBox.classList.add('hidden');
             setTimeout(() => {
                 document.getElementById('ai-response').textContent = 'Waiting for input...';
             }, 500);
@@ -121,7 +140,7 @@
                 responseBox.classList.remove('opacity-0');
                 
                 // Example response 
-                document.getElementById('ai-response').textContent = 'Generating Haiku from image...';
+                document.getElementById('ai-response').textContent = 'Dominic Monaghan interviewing Elijah Wood if he will wear wigs';
             } else {
                 
                 errorMessage.classList.remove('hidden');
@@ -132,11 +151,28 @@
                 }, 600);
             }
         }
-
+        
+        function handleYesClick() {
+            // Hide response box
+            responseBox.classList.add('opacity-0');
+            
+            // Show generating haiku box
+            setTimeout(() => {
+                responseBox.classList.add('hidden');
+                generatingHaikuBox.classList.remove('hidden');
+            }, 500);
+        }
+        
+        function handleNoClick() {
+            // Reset everything
+            removeImage();
+        }
         
         dropzoneFile.addEventListener('change', handleFileSelect);
         removeImageBtn.addEventListener('click', removeImage);
         submitButton.addEventListener('click', handleSubmit);
+        yesButton.addEventListener('click', handleYesClick);
+        noButton.addEventListener('click', handleNoClick);
         
         // Add some CSS animation
         document.head.insertAdjacentHTML('beforeend', `
@@ -158,4 +194,3 @@
 </body>
 </html>
 {% endblock %}
-
