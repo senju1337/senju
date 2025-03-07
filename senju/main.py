@@ -45,3 +45,10 @@ def prompt_view():
         "prompt.html",
         title="Haiku generation"
     )
+
+@app.route("/scan")
+def scan_view():
+    return render_template(
+        "scan.html",
+        title="Image scanning"
+    )
