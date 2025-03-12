@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from flask import Flask, redirect, render_template, request, url_for, send_from_directory
+from flask import (Flask, redirect, render_template, request, url_for,
+                   send_from_directory)
 
 from senju.haiku import Haiku
 from senju.store_manager import StoreManager
@@ -67,4 +68,5 @@ def generate_haiku():
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+                               'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
