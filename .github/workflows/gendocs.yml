@@ -1,0 +1,38 @@
+name: Build and Store Documentation Artifact
+
+on:
+  push:
+    branches:
+      - master
+      - devel
+  pull_request:
+    branches:
+      - master
+      - devel
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install sphinx
+      - name: Build Sphinx documentation
+        run: |
+          cd docs
+          sphinx-apidoc -o source/_modules ../senju
+          make html
+      - name: Upload documentation artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-artifact
+          path: docs/build/html
+          # TODO: upload artifact for gh pages
+          # TODO: deploy to gh pages
