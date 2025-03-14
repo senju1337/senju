@@ -2,7 +2,7 @@
 name = "senju"
 version = "0.1.0"
 description = "API / Webservice for Phrases/Words/Kanji/Haiku"
-authors = [{ name = "Christoph J. Scherr", email = "software@cscherr.de" }, {name = "Moritz Marquard", email="mrmarquard@protonmail.com"}]
+authors = [{ name = "Christoph J. Scherr", email = "software@cscherr.de" },{name = "Moritz Marquard", email="mrmarquard@protonmail.com"}]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
