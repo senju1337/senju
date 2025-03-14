@@ -60,6 +60,7 @@ def scan_view():
         title="Image scanning"
     )
 
+
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
     if request.method == 'POST':
