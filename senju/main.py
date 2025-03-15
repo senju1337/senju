@@ -14,6 +14,11 @@ app = Flask(__name__)
 
 store = StoreManager(Path("/tmp/store.db"))
 
+def foobar():
+    """WE KNOW"""
+    a = 3
+    b = 3
+    return a+b
 
 @app.route("/")
 def index_view():
@@ -31,6 +36,7 @@ def haiku_index_view():
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
+    """test"""
     haiku: Haiku | None = store.load_haiku(haiku_id)
     if haiku is None:
         # TODO: add "haiku not found" page

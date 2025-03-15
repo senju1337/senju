@@ -37,6 +37,13 @@ USER INPUT FOR HAIKU CREATION:
 """
 
 
+def foobar():
+    """WE KNOW"""
+    a = 3
+    b = 3
+    return a+b
+
+
 @dataclass
 class Haiku:
     lines: list[str]

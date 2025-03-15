@@ -9,7 +9,8 @@ import os
 import sys
 from pathlib import Path
 sys.path.insert(0, os.path.abspath("../../senju"))
-
+senju_path = os.path.abspath("../../")
+print("FFFFFFFFFFFFFFFFFFFFFFFFFF", senju_path, sys.path)
 project = 'senju'
 copyright = '2025, senju hashirama'
 author = 'senju hashirama'
