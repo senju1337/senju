@@ -14,11 +14,13 @@ app = Flask(__name__)
 
 store = StoreManager(Path("/tmp/store.db"))
 
+
 def foobar():
     """WE KNOW"""
     a = 3
     b = 3
-    return a+b
+    return a + b
+
 
 @app.route("/")
 def index_view():
