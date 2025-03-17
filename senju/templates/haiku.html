@@ -1,32 +1,64 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="bg-violet-900 min-h-screen flex items-center justify-center text-white">
 	<div class="text-center">
 		<div class="bg-white text-gray-900 p-10 rounded-lg shadow-lg max-w-2xl mx-auto transform -translate-y-10">
 			<h1 class="text-4xl font-bold text-violet-700 mb-6">{{ title }}</h1>
-			<p class="text-2xl italic leading-relaxed text-left">
+			<p id="haiku-text" class="text-2xl italic leading-relaxed text-left">
 				{% for line in context.haiku.lines %}
 					{{ line }}<br>
 				{% endfor %}
 			</p>
+			<button id="speak-button" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg">
+				<span class="flex items-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+					</svg>
+					Speak Haiku
+				</span>
+			</button>
 		</div>
 		<a href="{{ url_for('index_view') }}"
-			class=" inline-block bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg">
+			class="inline-block bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg mt-6">
 			Back to Home
 		</a>
 	</div>
 </div>
 <script>
-	if ('speechSynthesis' in window){
-		//Speech supported
-	}
-	else{
-		//Speech not supported
-		alert("Sorry your browser does not support Speech synthesis");
-	}
-	var msg = new speechSynthesisUtterance();
-	msg.text = {context.haiku.lines};
-	window.speak(msg);
+	document.addEventListener('DOMContentLoaded', function() {
+		const speakButton = document.getElementById('speak-button');
+		const haikuText = document.getElementById('haiku-text');
+		
+		// Check if speech synthesis is supported
+		if (!('speechSynthesis' in window)) {
+			speakButton.disabled = true;
+			speakButton.title = "Speech synthesis not supported in your browser";
+			speakButton.classList.add('opacity-50');
+			console.error("Speech synthesis not supported");
+		}
+		
+		speakButton.addEventListener('click', function() {
+			// Get the haiku text without the <br> tags
+			const textContent = haikuText.innerText.trim();
+			
+			// Create a new speech synthesis instance
+			const msg = new SpeechSynthesisUtterance();
+			msg.text = textContent;
+			msg.rate = 0.9; // Slightly slower for better haiku rhythm
+			msg.pitch = 1.0;
+			
+			// Stop any ongoing speech
+			window.speechSynthesis.cancel();
+			
+			// Start speaking
+			window.speechSynthesis.speak(msg);
+			
+			// Visual feedback
+			speakButton.classList.add('bg-violet-800');
+			msg.onend = function() {
+				speakButton.classList.remove('bg-violet-800');
+			};
+		});
+	});
 </script>
 {% endblock %}
