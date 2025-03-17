@@ -53,6 +53,14 @@ def prompt_view():
     )
 
 
+@app.route("/scan")
+def scan_view():
+    return render_template(
+        "scan.html",
+        title="Image scanning"
+    )
+
+
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
     if request.method == 'POST':
