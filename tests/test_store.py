@@ -1,5 +1,7 @@
 # do not remove this import. This is needed for
 # pytest fixtures to work
+from __future__ import annotations
+
 import pytest  # noqa: F401
 
 from senju.haiku import Haiku

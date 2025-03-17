@@ -1,8 +1,14 @@
+from __future__ import annotations
+
 from pathlib import Path
-from flask import Flask, redirect, render_template, url_for
+
+from flask import (Flask, redirect, render_template, request, url_for,
+                   send_from_directory)
 
 from senju.haiku import Haiku
 from senju.store_manager import StoreManager
+
+import os
 
 app = Flask(__name__)
 
@@ -46,9 +52,29 @@ def prompt_view():
         title="Haiku generation"
     )
 
+
 @app.route("/scan")
 def scan_view():
     return render_template(
         "scan.html",
         title="Image scanning"
     )
+
+
+@app.route("/api/v1/haiku", methods=['POST'])
+def generate_haiku():
+    if request.method == 'POST':
+        json_data = request.get_json()
+        prompt = json_data["prompt"]
+        haiku = Haiku.request_haiku(prompt)
+        id = store.save_haiku(haiku)
+        return str(id)
+    else:
+        return "Method not allowed", 405
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static/img'),
+                               'favicon.ico',
+                               mimetype='image/vnd.microsoft.icon')
