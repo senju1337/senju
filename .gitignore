@@ -174,3 +174,6 @@ pyrightconfig.json
 
 # Ollama Local Dir
 ollama
+
+# sphinx rst files
+docs/source/_modules
