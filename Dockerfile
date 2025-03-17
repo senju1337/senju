@@ -10,7 +10,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN apk add curl
+RUN apk add curl bash jq
 RUN pip install poetry
 RUN poetry install
 
