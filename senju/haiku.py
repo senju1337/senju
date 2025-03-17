@@ -39,14 +39,13 @@ class Haiku:
 
                 lines = ai_response.split("\n")
 
-                for line in lines:
-                    if len(line.split(" ")) > 8 or line == "\n" or line == " ":
-                        lines.remove(line)
+                for _ in range(0, 2):
+                    lines.pop()
+
+                logging.warning(lines)
 
                 if len(lines) != 3:
                     continue
-
-                logging.warning(lines)
 
                 haiku = Haiku(
                     [

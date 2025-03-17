@@ -23,23 +23,23 @@ This is critically important: The output will be processed by a system that requ
 EXACT compliance with these formatting rules.
 Any deviation will cause technical failures.
 
-Example output:
+The poems may look like the following ones:
 
+Example 1:
 An old silent pond
 A frog jumps into the pond
 Splash! Silence again
 
+Example 2:
 A world of dew
 And within every dewdrop
 A world of struggle
 
+Example 3:
 The light of a candle
 Is transferred to another candle
 Spring twilight
 
-I write, erase, rewrite
-Erase again, and then
-A poppy blooms
 
 You MUST use this format:
 <the first line>
@@ -57,12 +57,12 @@ EOF
 # Create the JSON structure with jq (install with: apt-get install jq)
 CONF=$(jq -n --arg system "$SYSTEM_PROMPT" '{
   model: "haiku",
-  from: "llama3.2",
+  from: "phi3",
   temperature: 1,
   system: $system
 }')
 
-curl http://ollama:11434/api/pull -d '{"model": "llama3.2"}'
+curl http://ollama:11434/api/pull -d '{"model": "phi3"}'
 curl http://ollama:11434/api/create -d "$CONF"
 cd /app
 poetry run sh -c 'flask --app senju/main run --host=0.0.0.0'
