@@ -17,4 +17,16 @@
 		</a>
 	</div>
 </div>
+<script>
+	if ('speechSynthesis' in window){
+		//Speech supported
+	}
+	else{
+		//Speech not supported
+		alert("Sorry your browser does not support Speech synthesis");
+	}
+	var msg = new speechSynthesisUtterance();
+	msg.text = {context.haiku.lines};
+	window.speak(msg);
+</script>
 {% endblock %}
