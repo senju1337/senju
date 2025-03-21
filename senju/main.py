@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from logging import raiseExceptions
 from pathlib import Path
 
 from flask import (Flask, redirect, render_template, request, url_for,
