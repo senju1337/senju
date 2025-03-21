@@ -39,7 +39,7 @@ class Haiku:
 
                 lines = ai_response.split("\n")
 
-                for _ in range(0, 2):
+                while len(lines) != 3:
                     lines.pop()
 
                 logging.warning(lines)
