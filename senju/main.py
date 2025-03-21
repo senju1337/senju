@@ -15,6 +15,13 @@ app = Flask(__name__)
 store = StoreManager(Path("/tmp/store.db"))
 
 
+def foobar():
+    """WE KNOW"""
+    a = 3
+    b = 3
+    return a + b
+
+
 @app.route("/")
 def index_view():
     return render_template("index.html", title="Senju")
@@ -31,6 +38,7 @@ def haiku_index_view():
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
+    """test"""
     haiku: Haiku | None = store.load_haiku(haiku_id)
     if haiku is None:
         # TODO: add "haiku not found" page
@@ -66,6 +74,8 @@ def generate_haiku():
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
+        if len(prompt) > 100:
+            return "Content Too Large", 413
         haiku = Haiku.request_haiku(prompt)
         id = store.save_haiku(haiku)
         return str(id)

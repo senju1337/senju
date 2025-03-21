@@ -27,3 +27,11 @@
 - Haikus generieren aus Bild
 - Bild zu Haiku generieren
 - Haikus vorlesen
+
+## Komponenten
+
+- APICallHandler (Haiku Generator und irgendwas anderes externes)
+- PeriodicContentSource (Daily-Dingsbums-Generator)
+- URLRoutingManager (das ding was url routen für flaks setzt)
+- ConfigurationManager (das ding was konfigurationen speichert)
+- TrascriptionServiceManager (das ding was aus bild text für nen haiku prompt macht)
