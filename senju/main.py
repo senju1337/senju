@@ -1,14 +1,13 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
-from flask import (Flask, redirect, render_template, request, url_for,
-                   send_from_directory)
+from flask import (Flask, redirect, render_template, request,
+                   send_from_directory, url_for)
 
 from senju.haiku import Haiku
 from senju.store_manager import StoreManager
-
-import os
 
 app = Flask(__name__)
 
@@ -121,7 +120,8 @@ def generate_haiku():
     API endpoint to generate a new haiku based on the provided prompt.
 
     Accepts POST requests with JSON data containing a 'prompt' field.
-    Generates a haiku using the prompt, saves it to the store, and returns the ID.
+    Generates a haiku using the prompt, saves it to the store,
+    and returns the ID.
 
     Returns:
         str: The ID of the newly created haiku if method is POST.
