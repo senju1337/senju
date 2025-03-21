@@ -40,8 +40,8 @@ document.getElementById("submit-btn").addEventListener("click", function() {
     if (userInput.trim() === "") {
         responseText.textContent = "Please enter a prompt!";
     } 
-    else if (userInput.length !== 5) {
-        responseText.textContent = "Input must be exactly 5 characters long!";
+    else if (userInput.length > 100) {
+        responseText.textContent = "Input must under 100 characters long!";
     }
     else if (userInput.trim() === "amogus") {
         responseText.textContent = "🤖 AI is thinking...";
