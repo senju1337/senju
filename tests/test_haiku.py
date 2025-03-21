@@ -5,14 +5,12 @@ from __future__ import annotations
 
 import os
 import json
-import logging
 from pytest_httpserver import HTTPServer
 
 # do not remove this import. This is needed for
 # pytest fixtures to work
 import pytest  # noqa: F401
 
-import senju
 from senju.haiku import Haiku  # noqa: F401
 
 # Note: these weird arguments are an indicator of what should be dome

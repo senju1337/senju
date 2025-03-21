@@ -48,11 +48,11 @@ class Haiku:
 
                 if len(lines) < 3:
                     if tries < 20:
-                        logging.warning(f"too few lines, trying again")
+                        logging.warning("too few lines, trying again")
                         logging.debug(lines)
                         continue
                     else:
-                        logging.warning(f"too many tries, aborting")
+                        logging.warning("too many tries, aborting")
                         raise Exception(
                             "Generating the haiku took too many tries")
 
