@@ -24,11 +24,28 @@ def foobar():
 
 @app.route("/")
 def index_view():
+    """
+    Render the main index page of the application.
+
+    Returns:
+        Text: The index.html template with title "Senju".
+    """
+
     return render_template("index.html", title="Senju")
 
 
 @app.route("/haiku/")
 def haiku_index_view():
+    """
+    Redirect to the most recently created haiku.
+
+    Returns:
+        Response: Redirects to the haiku_view route with the latest haiku ID.
+
+    Raises:
+        KeyError: If no haikus exist in the store yet.
+    """
+
     haiku_id: int | None = store.get_id_of_latest_haiku()
     if haiku_id is None:
         # TODO: add "empty haiku list" error page
@@ -38,7 +55,23 @@ def haiku_index_view():
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
-    """test"""
+    """
+    Display a specific haiku by its ID.
+
+    Loads the haiku with the given ID from the store and renders it using
+    the haiku.html template. If no haiku is found with the provided ID,
+    raises a KeyError.
+
+    Args:
+        haiku_id (int): The ID of the haiku to display.
+
+    Returns:
+        Text: The haiku.html template with the haiku data in context.
+
+    Raises:
+        KeyError: If no haiku exists with the given ID.
+    """
+
     haiku: Haiku | None = store.load_haiku(haiku_id)
     if haiku is None:
         # TODO: add "haiku not found" page
@@ -55,6 +88,13 @@ def haiku_view(haiku_id):
 
 @app.route("/prompt")
 def prompt_view():
+    """
+    Render the haiku generation prompt page.
+
+    Returns:
+        Text: The prompt.html template with title "Haiku generation".
+    """
+
     return render_template(
         "prompt.html",
         title="Haiku generation"
@@ -63,6 +103,12 @@ def prompt_view():
 
 @app.route("/scan")
 def scan_view():
+    """
+    Render the image scanning page.
+
+    Returns:
+        Text: The scan.html template with title "Image scanning".
+    """
     return render_template(
         "scan.html",
         title="Image scanning"
@@ -71,6 +117,17 @@ def scan_view():
 
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
+    """
+    API endpoint to generate a new haiku based on the provided prompt.
+
+    Accepts POST requests with JSON data containing a 'prompt' field.
+    Generates a haiku using the prompt, saves it to the store, and returns the ID.
+
+    Returns:
+        str: The ID of the newly created haiku if method is POST.
+        tuple: Error message and status code 405 if method is not POST.
+    """
+
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
@@ -83,6 +140,13 @@ def generate_haiku():
 
 @app.route('/favicon.ico')
 def favicon():
+    """
+    Serve the favicon.ico file from the static directory.
+
+    Returns:
+        Response: The favicon.ico file with the appropriate MIME type.
+    """
+
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
                                'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')

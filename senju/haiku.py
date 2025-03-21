@@ -19,21 +19,16 @@ def foobar():
 
 @dataclass
 class Haiku:
-    """
-    A class representing a haiku poem with three lines.
-
-    Attributes:
-        lines (list[str]): A list containing the three lines of the haiku.
-    """
     lines: list[str]
 
     def get_json(self):
-         """
+        """
         Converts the haiku lines to a JSON string.
 
         Returns:
             str: A JSON string representation of the haiku lines.
         """
+
         return json.dumps(self.lines)
 
     @staticmethod
