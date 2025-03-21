@@ -8,6 +8,8 @@
             <input
                 type="text"
                 id="user-input"
+                minlength="0" 
+                maxlength="100"
                 placeholder="Type your prompt here..."
                 class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600"
             />
@@ -32,42 +34,43 @@ document.getElementById("submit-btn").addEventListener("click", function() {
     let responseBox = document.getElementById("response-box");
     let responseText = document.getElementById("ai-response");
 
+    // Hide the response box initially
+    responseBox.classList.add("opacity-0");
+
     if (userInput.trim() === "") {
         responseText.textContent = "Please enter a prompt!";
+    } 
+    else if (userInput.length > 100) {
+        responseText.textContent = "Input must under 100 characters long!";
     }
-    else if (userInput.trim()==="amogus"){
+    else if (userInput.trim() === "amogus") {
         responseText.textContent = "🤖 AI is thinking...";
         responseBox.classList.remove("opacity-0");
 
         // Simulated AI response delay
         setTimeout(() => {
-            responseText.textContent = `Sus imposter ඞ`;
+            responseText.textContent = "Sus imposter ඞ";
         }, 1500);
-    }
+    } 
     else {
         responseText.textContent = "🤖 AI is thinking...";
         responseBox.classList.remove("opacity-0");
-
-        console.log(userInput );
 
         fetch('/api/v1/haiku', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({'prompt': userInput})
+            body: JSON.stringify({ 'prompt': userInput })
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data);
             let id = parseInt(data, 10);
-            window.location.href = "/haiku/"+id;
+            window.location.href = "/haiku/" + id;
         })
         .catch(error => {
-            document.getElementById('result').innerHTML = '<strong>Error:</strong> ' + error.message;
+            responseText.textContent = 'Error: ' + error.message;
         });
-
     }
 });
-</script>
 {% endblock %}
