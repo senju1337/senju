@@ -19,15 +19,43 @@ def foobar():
 
 @dataclass
 class Haiku:
+    """
+    A class representing a haiku poem with three lines.
+
+    Attributes:
+        lines (list[str]): A list containing the three lines of the haiku.
+    """
     lines: list[str]
 
     def get_json(self):
+         """
+        Converts the haiku lines to a JSON string.
+
+        Returns:
+            str: A JSON string representation of the haiku lines.
+        """
         return json.dumps(self.lines)
 
     @staticmethod
     def request_haiku(seed: str) -> Haiku:
-        """This function prompts the ai to generate
-        the hauku based on the user input"""
+        """
+        Generates a haiku using an AI model based on the provided seed text.
+
+        This function prompts the AI to generate a haiku based on the user input.
+        It validates that the response:
+        - Contains exactly 3 lines
+
+        The function will retry until a valid haiku is generated.
+
+        Args:
+            seed (str): The input text used to inspire the haiku generation.
+
+        Returns:
+            Haiku: A new Haiku object containing the generated three lines.
+
+        Raises:
+            Possible JSONDecodeError which is caught and handled with retries.
+        """
 
         ai_gen_request = {
             "model": "haiku",
