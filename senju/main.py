@@ -75,7 +75,7 @@ def generate_haiku():
         json_data = request.get_json()
         prompt = json_data["prompt"]
         if len(prompt)>100:
-            return "Unprocessable Entity", 422
+            return "Content Too Large", 413
         haiku = Haiku.request_haiku(prompt)
         id = store.save_haiku(haiku)
         return str(id)
