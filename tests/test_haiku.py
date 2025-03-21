@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import os
 import json
+import logging
+from pytest_httpserver import HTTPServer
 
 # do not remove this import. This is needed for
 # pytest fixtures to work
@@ -44,6 +46,15 @@ def test_get_haiku_json():
     print(data)
 
 
-def test_request_haiku():
-    haiku = Haiku.request_haiku("apple banana papaya")
+def test_request_haiku(httpserver: HTTPServer):
+
+    httpserver.expect_request(
+        "/testhaiku").respond_with_json({"response":
+                                         "The apparition of these\n"
+                                        "faces in a crowd; Petal\n"
+                                         "on a wet, black bough."
+                                         })
+
+    haiku = Haiku.request_haiku(
+        "apple banana papaya", url=httpserver.url_for("/testhaiku"))
     print(haiku)

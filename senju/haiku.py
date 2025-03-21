@@ -18,7 +18,7 @@ class Haiku:
         return json.dumps(self.lines)
 
     @staticmethod
-    def request_haiku(seed: str) -> Haiku:
+    def request_haiku(seed: str, url=AI_BASE_URL + AI_GEN_ENDPOINT) -> Haiku:
         """This function prompts the ai to generate
         the hauku based on the user input"""
 
@@ -31,7 +31,7 @@ class Haiku:
 
         while True:
             try:
-                r = requests.post(url=AI_BASE_URL + AI_GEN_ENDPOINT,
+                r = requests.post(url=url,
                                   json=ai_gen_request)
                 ai_response = str(r.json()["response"])
 
