@@ -25,40 +25,35 @@
 	</div>
 </div>
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-		const speakButton = document.getElementById('speak-button');
-		const haikuText = document.getElementById('haiku-text');
-		
-		// Check if speech synthesis is supported
-		if (!('speechSynthesis' in window)) {
-			speakButton.disabled = true;
-			speakButton.title = "Speech synthesis not supported in your browser";
-			speakButton.classList.add('opacity-50');
-			console.error("Speech synthesis not supported");
-		}
-		
-		speakButton.addEventListener('click', function() {
-			// Get the haiku text without the <br> tags
-			const textContent = haikuText.innerText.trim();
-			
-			// Create a new speech synthesis instance
-			const msg = new SpeechSynthesisUtterance();
-			msg.text = textContent;
-			msg.rate = 0.9; // Slightly slower for better haiku rhythm
-			msg.pitch = 1.0;
-			
-			// Stop any ongoing speech
-			window.speechSynthesis.cancel();
-			
-			// Start speaking
-			window.speechSynthesis.speak(msg);
-			
-			// Visual feedback
-			speakButton.classList.add('bg-violet-800');
-			msg.onend = function() {
-				speakButton.classList.remove('bg-violet-800');
-			};
-		});
-	});
-</script>
+	document.addEventListener('DOMContentLoaded', function () {
+    const speakButton = document.getElementById('speak-button');
+    const haikuText = document.getElementById('haiku-text');
+
+    function speakText() {
+        const textContent = haikuText.innerText.trim();
+        console.log("Speaking text:", textContent);
+
+        const msg = new SpeechSynthesisUtterance(textContent);
+        const voices = window.speechSynthesis.getVoices();
+
+        if (voices.length > 0) {
+            msg.voice = voices[0]; // Use the first available voice
+        } else {
+            console.warn("No voices available!");
+        }
+
+        window.speechSynthesis.cancel(); // Stop any previous speech
+        window.speechSynthesis.speak(msg);
+    }
+
+    if ('speechSynthesis' in window) {
+        speechSynthesis.onvoiceschanged = () => {
+            console.log("Voices loaded:", speechSynthesis.getVoices());
+            speakButton.addEventListener('click', speakText);
+        };
+    } else {
+        speakButton.style.display = 'none';
+    }
+});
+
 {% endblock %}
