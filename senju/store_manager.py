@@ -7,7 +7,7 @@ from typing import Optional
 from tinydb import TinyDB
 from tinydb.queries import QueryImpl
 
-from senju.haiku import Haiku
+from senju.haiku import DEFAULT_HAIKU, Haiku
 
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")
 
@@ -34,10 +34,12 @@ class StoreManager:
     def _save(self, data: dict) -> int:
         return self._db.insert(data)
 
-    def load_haiku(self, key: int) -> Optional[Haiku]:
+    def load_haiku(self, key: Optional[int]) -> Haiku:
+        if key is None:
+            return DEFAULT_HAIKU
         raw_haiku: dict | None = self._load(key)
         if raw_haiku is None:
-            return None
+            return DEFAULT_HAIKU
         h = Haiku(**raw_haiku)
         return h
 

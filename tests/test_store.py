@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest  # noqa: F401
 
-from senju.haiku import Haiku
+from senju.haiku import DEFAULT_HAIKU, Haiku
 from senju.store_manager import StoreManager  # noqa: F401
 
 
@@ -36,9 +36,25 @@ def test_save_and_load_haiku(store_manager: StoreManager):
             but should have"
 
     assert h == h_loaded
+    assert h != DEFAULT_HAIKU
 
 
 def test_load_latest_with_empty_store(temp_data_dir):
     store = StoreManager(temp_data_dir / "empty_store.json")
     h = store.get_id_of_latest_haiku()
     assert h is None
+
+
+def test_load_latest_or_default_with_empty(temp_data_dir):
+    store = StoreManager(temp_data_dir / "load_or_default_empty.json")
+    haiku = store.load_haiku(store.get_id_of_latest_haiku())
+    assert haiku == DEFAULT_HAIKU
+
+
+def test_load_latest_or_default_with_non_empty(temp_data_dir):
+    store = StoreManager(temp_data_dir / "load_or_default_not_empty.json")
+    nonsense_test_haiku = Haiku(["nonsense", "test", "haiku"])
+    store.save_haiku(nonsense_test_haiku)
+    haiku = store.load_haiku(store.get_id_of_latest_haiku())
+    assert haiku != DEFAULT_HAIKU
+    assert haiku == nonsense_test_haiku
