@@ -1,3 +1,42 @@
+"""
+Senju Haiku Web Application
+===========================
+
+A Flask-based web interface for generating, viewing, and managing haiku poetry.
+
+This application provides a comprehensive interface between users and an AI-powered
+haiku generation service, with persistent storage capabilities. Users can interact
+with the system through both a web interface and a RESTful API.
+
+Features
+--------
+* **Landing page**: Welcome interface introducing users to the Senju service
+* **Browsing interface**: Gallery-style viewing of previously generated haikus
+* **Prompt interface**: Text input system for generating haikus from seed text
+* **Image scanning**: Experimental interface for creating haikus from visual inputs
+* **RESTful API**: Programmatic access for integration with other services
+
+Architecture
+------------
+The application implements a RESTful architecture using Flask's routing system
+and template rendering. All user interactions are handled through clearly defined
+routes, with appropriate error handling for exceptional cases.
+
+Dependencies
+------------
+* future.annotations: Enhanced type hint support
+* os, Path: Filesystem operations for storage management
+* Flask: Core web application framework
+* Haiku: Custom class for poem representation and generation
+* StoreManager: Database abstraction for persistence operations
+
+Implementation
+--------------
+The module initializes both a Flask application instance and a StoreManager
+with a configured storage location. All routes and view functions required
+for the complete web interface are defined within this module.
+"""
+
 from __future__ import annotations
 
 import os
@@ -26,31 +65,25 @@ def index_view():
     """
     Render the main index page of the application.
 
-    Returns:
-        Text: The index.html template with title "Senju".
+    :return: The index.html template with title "Senju".
+    :rtype: flask.Response
     """
-
     return render_template("index.html", title="Senju")
-
 
 @app.route("/haiku/")
 def haiku_index_view():
     """
     Redirect to the most recently created haiku.
 
-    Returns:
-        Response: Redirects to the haiku_view route with the latest haiku ID.
-
-    Raises:
-        KeyError: If no haikus exist in the store yet.
+    :return: Redirects to the haiku_view route with the latest haiku ID.
+    :rtype: flask.Response
+    :raises KeyError: If no haikus exist in the store yet.
     """
-
     haiku_id: int | None = store.get_id_of_latest_haiku()
     if haiku_id is None:
         # TODO: add "empty haiku list" error page
         raise KeyError("no haiku exist yet")
     return redirect(url_for("haiku_view", haiku_id=haiku_id))
-
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
@@ -61,16 +94,12 @@ def haiku_view(haiku_id):
     the haiku.html template. If no haiku is found with the provided ID,
     raises a KeyError.
 
-    Args:
-        haiku_id (int): The ID of the haiku to display.
-
-    Returns:
-        Text: The haiku.html template with the haiku data in context.
-
-    Raises:
-        KeyError: If no haiku exists with the given ID.
+    :param haiku_id: The ID of the haiku to display.
+    :type haiku_id: int
+    :return: The haiku.html template with the haiku data in context.
+    :rtype: flask.Response
+    :raises KeyError: If no haiku exists with the given ID.
     """
-
     haiku: Haiku | None = store.load_haiku(haiku_id)
     if haiku is None:
         # TODO: add "haiku not found" page
@@ -78,41 +107,36 @@ def haiku_view(haiku_id):
     context: dict = {
         "haiku": haiku
     }
-
     return render_template(
         "haiku.html",
         context=context,
         title="Haiku of the Day")
-
 
 @app.route("/prompt")
 def prompt_view():
     """
     Render the haiku generation prompt page.
 
-    Returns:
-        Text: The prompt.html template with title "Haiku generation".
+    :return: The prompt.html template with title "Haiku generation".
+    :rtype: flask.Response
     """
-
     return render_template(
         "prompt.html",
         title="Haiku generation"
     )
-
 
 @app.route("/scan")
 def scan_view():
     """
     Render the image scanning page.
 
-    Returns:
-        Text: The scan.html template with title "Image scanning".
+    :return: The scan.html template with title "Image scanning".
+    :rtype: flask.Response
     """
     return render_template(
         "scan.html",
         title="Image scanning"
     )
-
 
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
@@ -123,11 +147,10 @@ def generate_haiku():
     Generates a haiku using the prompt, saves it to the store,
     and returns the ID.
 
-    Returns:
-        str: The ID of the newly created haiku if method is POST.
-        tuple: Error message and status code 405 if method is not POST.
+    :return: The ID of the newly created haiku if method is POST.
+             Error message and status code 405 if method is not POST.
+    :rtype: Union[str, Tuple[str, int]]
     """
-
     if request.method == 'POST':
         json_data = request.get_json()
         prompt = json_data["prompt"]
@@ -137,16 +160,14 @@ def generate_haiku():
     else:
         return "Method not allowed", 405
 
-
 @app.route('/favicon.ico')
 def favicon():
     """
     Serve the favicon.ico file from the static directory.
 
-    Returns:
-        Response: The favicon.ico file with the appropriate MIME type.
+    :return: The favicon.ico file with the appropriate MIME type.
+    :rtype: flask.Response
     """
-
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
                                'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
