@@ -11,6 +11,7 @@ const yesButton = document.getElementById("yes-button");
 const noButton = document.getElementById("no-button");
 const generatingHaikuBox = document.getElementById("generating-haiku-box");
 const generatedHaikuBox = document.getElementById("generated-haiku-box");
+let haiku_prompt = "";
 let imageUploaded = false;
 
 function handleFileSelect(event) {
@@ -80,10 +81,10 @@ function handleSubmit() {
       })
       .then((data) => {
         // Extract top result and display it
-        if (data.results && data.results.length > 0) {
-          const topResult = data.results[0];
+        if (data.description) {
+          haiku_prompt = data.description;
           document.getElementById("ai-response").textContent =
-            `${topResult.label} (${Math.round(topResult.confidence * 100)}% confidence)`;
+            `Recognized: ${haiku_prompt}`;
         } else {
           document.getElementById("ai-response").textContent =
             "Could not identify the image";
@@ -102,23 +103,30 @@ function handleSubmit() {
     }, 600);
   }
 }
-
 function handleYesClick() {
   // Hide response box
   responseBox.classList.add("opacity-0");
 
-  // Show generating haiku box first
-  setTimeout(() => {
-    responseBox.classList.add("hidden");
-    generatingHaikuBox.classList.remove("hidden");
+  responseBox.textContent = "🤖 AI is thinking...";
+  responseBox.classList.remove("opacity-0");
 
-    // After a delay, hide generating box and show result
-    setTimeout(() => {
-      generatingHaikuBox.classList.add("hidden");
-      generatedHaikuBox.classList.remove("hidden");
-    }, 3000); // Show loading animation for 3 seconds before revealing the haiku
-  }, 500); // Wait for response box fade out
+  fetch("/api/v1/haiku", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt: haiku_prompt }),
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      let id = parseInt(data, 10);
+      window.location.href = "/haiku/" + id;
+    })
+    .catch((error) => {
+      responseBox.textContent = "Error: " + error.message;
+    });
 }
+
 function handleNoClick() {
   // Reset everything
   removeImage();
