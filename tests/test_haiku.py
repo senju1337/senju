@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import os
 import json
 from pytest_httpserver import HTTPServer
 import requests
@@ -19,15 +18,6 @@ from senju.haiku import Haiku  # noqa: F401
 # put it in the arguments, it seems to run before our test, and the return
 # value becomes a local. This is all very confusing for someone used to
 # Rust's libtest
-
-
-def test_temp_data_dir(temp_data_dir):
-    print(temp_data_dir)
-    testpath = temp_data_dir / "__test"
-    with open(testpath, "w") as f:
-        f.write("that dir actually works")
-    os.remove(testpath)
-    assert not os.path.exists(testpath)
 
 
 def test_create_haiku():

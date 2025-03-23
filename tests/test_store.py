@@ -3,9 +3,19 @@
 from __future__ import annotations
 
 import pytest  # noqa: F401
+import os
 
 from senju.haiku import DEFAULT_HAIKU, Haiku
 from senju.store_manager import StoreManager  # noqa: F401
+
+
+def test_temp_data_dir(temp_data_dir):
+    print(temp_data_dir)
+    testpath = temp_data_dir / "__test"
+    with open(testpath, "w") as f:
+        f.write("that dir actually works")
+    os.remove(testpath)
+    assert not os.path.exists(testpath)
 
 
 def test_save_and_load_any(store_manager: StoreManager):
