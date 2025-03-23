@@ -30,18 +30,27 @@ def test_temp_data_dir(temp_data_dir):
     with open(testpath, "w") as f:
         f.write("that dir actually works")
     os.remove(testpath)
+    assert not os.path.exists(testpath)
 
 
 def test_create_haiku():
     haiku = Haiku(["line number 1", "line number 2", "line number 3"])
-    print(haiku)
+    assert haiku.lines[0] == "line number 1"
+    assert haiku.lines[1] == "line number 2"
+    assert haiku.lines[2] == "line number 3"
+    assert len(haiku.lines) == 3
 
 
 def test_get_haiku_json():
     haiku = Haiku(["line number 1", "line number 2", "line number 3"])
     data_raw: str = haiku.get_json()
+    assert data_raw == '["line number 1", "line number 2", "line number 3"]'
     data = json.loads(data_raw)
-    print(data)
+    assert haiku.lines[0] == "line number 1"
+    assert haiku.lines[1] == "line number 2"
+    assert haiku.lines[2] == "line number 3"
+    assert len(haiku.lines) == 3
+    assert data == ['line number 1', 'line number 2', 'line number 3']
 
 
 def test_request_haiku(httpserver: HTTPServer):
@@ -49,10 +58,13 @@ def test_request_haiku(httpserver: HTTPServer):
     httpserver.expect_request(
         "/testhaiku").respond_with_json({"response":
                                          "The apparition of these\n"
-                                        "faces in a crowd; Petal\n"
+                                         "faces in a crowd; Petal\n"
                                          "on a wet, black bough."
                                          })
 
     haiku = Haiku.request_haiku(
         "apple banana papaya", url=httpserver.url_for("/testhaiku"))
-    print(haiku)
+    assert haiku.lines[0] == "The apparition of these"
+    assert haiku.lines[1] == "faces in a crowd; Petal"
+    assert haiku.lines[2] == "on a wet, black bough."
+    assert len(haiku.lines) == 3
