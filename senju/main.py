@@ -24,20 +24,18 @@ def index_view():
 def haiku_index_view():
     haiku_id: int | None = store.get_id_of_latest_haiku()
     if haiku_id is None:
-        # TODO: add "empty haiku list" error page
-        raise KeyError("no haiku exist yet")
-    return redirect(url_for("haiku_view", haiku_id=haiku_id))
+        haiku_id = 0
+    return redirect(url_for("haiku_view", haiku_id=haiku_id, is_default=1))
 
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
     """test"""
-    haiku: Haiku | None = store.load_haiku(haiku_id)
-    if haiku is None:
-        # TODO: add "haiku not found" page
-        raise KeyError("haiku not found")
+    is_default: bool = request.args.get("is_default") == "1"
+    haiku: Haiku = store.load_haiku(haiku_id)
     context: dict = {
-        "haiku": haiku
+        "haiku": haiku,
+        "is_default": is_default
     }
 
     return render_template(
