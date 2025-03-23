@@ -35,10 +35,12 @@ class StoreManager:
     def _save(self, data: dict) -> int:
         return self._db.insert(data)
 
-    def load_haiku(self, key: int) -> Optional[Haiku]:
+    def load_haiku(self, key: Optional[int]) -> Haiku:
+        if key is None:
+            return DEFAULT_HAIKU
         raw_haiku: dict | None = self._load(key)
         if raw_haiku is None:
-            return None
+            return DEFAULT_HAIKU
         h = Haiku(**raw_haiku)
         return h
 
@@ -52,12 +54,3 @@ class StoreManager:
         except IndexError as e:
             self.logger.error(f"The database seems to be empty: {e}")
             return None
-
-    def get_latest_haiku_or_default(self) -> Haiku:
-        id = self.get_id_of_latest_haiku()
-        if id is None:
-            return DEFAULT_HAIKU
-        haiku = self.load_haiku(id)
-        if haiku is None:
-            return DEFAULT_HAIKU
-        return haiku
