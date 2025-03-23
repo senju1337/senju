@@ -93,7 +93,7 @@ class Haiku:
         return json.dumps(self.lines)
 
     @staticmethod
-    def request_haiku(seed: str) -> 'Haiku':
+    def request_haiku(seed: str, url=AI_BASE_URL + AI_GEN_ENDPOINT) -> Haiku:
         """
         Generates a haiku using an AI model based on the
         provided seed text.
@@ -104,6 +104,7 @@ class Haiku:
         The function will retry until a valid haiku is generated.
 
         :param seed: The input text used to inspire the haiku generation.
+        :param url: The URL to the AI endpoint
         :type seed: str
         :return: A new Haiku object containing the generated three lines.
         :rtype: Haiku
@@ -117,19 +118,35 @@ class Haiku:
             "stream": False,
             "eval_count": 20
         }
+
+        tries = 0
+
         while True:
+            tries += 1
             try:
-                r = requests.post(url=AI_BASE_URL + AI_GEN_ENDPOINT,
+                r = requests.post(url=url,
                                   json=ai_gen_request)
                 ai_response = str(r.json()["response"])
-                logging.warning(ai_response)
+
+                logging.debug(f"ai response: {ai_response}")
+
                 lines = ai_response.split("\n")
 
                 while len(lines) != 3:
                     lines.pop()
-                logging.warning(lines)
-                if len(lines) != 3:
-                    continue
+
+                logging.info(f"lines for haiku: {lines}")
+
+                if len(lines) < 3:
+                    if tries < 20:
+                        logging.warning("too few lines, trying again")
+                        logging.debug(lines)
+                        continue
+                    else:
+                        logging.warning("too many tries, aborting")
+                        raise Exception(
+                            "Generating the haiku took too many tries")
+
                 haiku = Haiku(
                     [
                         lines[0],
@@ -137,8 +154,11 @@ class Haiku:
                         lines[2]
                     ])
                 break
-            except json.JSONDecodeError:
-                continue
+
+            except json.JSONDecodeError as e:
+                logging.error(f"error while reading json from LLM: {e}")
+                raise e
+
         return haiku
 
 
