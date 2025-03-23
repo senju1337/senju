@@ -13,6 +13,7 @@ dependencies = [
 	"requests (>=2.32.3,<3.0.0)",
 	"coverage (>=7.6.12,<8.0.0)",
 	"pytest-httpserver (>=1.1.2,<2.0.0)",
+	"waitress (>=3.0.2,<4.0.0)",
 ]
 
 

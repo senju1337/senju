@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # First create a readable multiline string
 SYSTEM_PROMPT=$(cat <<EOF
@@ -65,4 +66,4 @@ CONF=$(jq -n --arg system "$SYSTEM_PROMPT" '{
 curl http://ollama:11434/api/pull -d '{"model": "phi3"}'
 curl http://ollama:11434/api/create -d "$CONF"
 cd /app
-poetry run sh -c 'flask --app senju/main run --host=0.0.0.0'
+poetry run sh -c 'waitress-serve --listen=*:5000 senju.main:app'

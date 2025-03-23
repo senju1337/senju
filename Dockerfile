@@ -14,8 +14,6 @@ RUN apk add curl bash jq
 RUN pip install poetry
 RUN poetry install
 
-FROM base as dev
-
 # Expose development port
 EXPOSE 5000
 
