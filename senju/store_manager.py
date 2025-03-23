@@ -4,25 +4,30 @@ Senju Database Management Module
 
 A database interaction layer for the Senju haiku management system.
 
-This module implements a lightweight document database abstraction using TinyDB
-for persistent storage of haiku poems. It provides a clean interface for storing,
+This module implements a lightweight document database
+abstraction using TinyDB
+for persistent storage of haiku poems. It provides a
+clean interface for storing,
 retrieving, updating, and managing haiku entries in the system.
 
 Classes
 -------
 StoreManager
-    The primary class responsible for all database operations. Handles connection
+    The primary class responsible for all database operations.
+    Handles connection
     management, CRUD operations, and query capabilities for haiku data.
 
 Functions
 ---------
 utility_function
-    Provides simple arithmetic operations to support database functionalities.
+    Provides simple arithmetic operations to support
+    database functionalities.
 
 Constants
 ---------
 DEFAULT_DB_PATH
-    The default filesystem location for the TinyDB database file (/var/lib/senju.json).
+    The default filesystem location for the TinyDB database file
+    (/var/lib/senju.json).
 
 Dependencies
 ------------
@@ -38,7 +43,8 @@ Implementation Details
 ----------------------
 The module uses TinyDB as its storage engine, providing a JSON-based document
 storage solution that balances simplicity with functionality. The StoreManager
-abstracts all database operations behind a clean API, handling connection lifecycle
+abstracts all database operations behind a clean API,
+handling connection lifecycle
 and providing methods for common operations on haiku data.
 """
 
@@ -67,9 +73,11 @@ class BadStoreManagerFileError(Exception):
 
 class StoreManager:
     """
-    Manages the storage and retrieval of haiku data using TinyDB.
+    Manages the storage and retrieval of haiku
+    data using TinyDB.
 
-    This class provides an interface for saving and loading haikus from
+    This class provides an interface for saving and
+    loading haikus from
     a TinyDB database file.
 
     :ivar _db: Database instance for storing haiku data.
@@ -85,7 +93,8 @@ class StoreManager:
         """
         Initialize the StoreManager with a database path.
 
-        :param path_to_db: Path to the TinyDB database file. Defaults to DEFAULT_DB_PATH.
+        :param path_to_db: Path to the TinyDB database file.
+            Defaults to DEFAULT_DB_PATH.
         :type path_to_db: Path, optional
         :return: None
         """
@@ -118,7 +127,8 @@ class StoreManager:
         :rtype: Optional[dict]
 
         .. note::
-           Logs a warning if document with specified ID is not found.
+           Logs a warning if document with specified
+           ID is not found.
         """
         try:
             return self._db.get(doc_id=id)
@@ -169,7 +179,8 @@ class StoreManager:
         """
         Get the ID of the most recently added haiku.
 
-        :return: The ID of the latest haiku if any exists, None otherwise.
+        :return: The ID of the latest haiku if any exists,
+                 None otherwise.
         :rtype: Optional[int]
 
         .. note::

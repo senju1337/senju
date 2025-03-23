@@ -4,8 +4,10 @@ Senju Haiku Web Application
 
 A Flask-based web interface for generating, viewing, and managing haiku poetry.
 
-This application provides a comprehensive interface between users and an AI-powered
-haiku generation service, with persistent storage capabilities. Users can interact
+This application provides a comprehensive interface between users
+and an AI-powered
+haiku generation service, with persistent storage capabilities.
+Users can interact
 with the system through both a web interface and a RESTful API.
 
 Features
@@ -13,13 +15,15 @@ Features
 * **Landing page**: Welcome interface introducing users to the Senju service
 * **Browsing interface**: Gallery-style viewing of previously generated haikus
 * **Prompt interface**: Text input system for generating haikus from seed text
-* **Image scanning**: Experimental interface for creating haikus from visual inputs
+* **Image scanning**: Experimental interface for creating haikus
+    from visual inputs
 * **RESTful API**: Programmatic access for integration with other services
 
 Architecture
 ------------
 The application implements a RESTful architecture using Flask's routing system
-and template rendering. All user interactions are handled through clearly defined
+and template rendering. All user interactions are handled through
+clearly defined
 routes, with appropriate error handling for exceptional cases.
 
 Dependencies
@@ -63,6 +67,7 @@ def index_view():
     """
     return render_template("index.html", title="Senju")
 
+
 @app.route("/haiku/")
 def haiku_index_view():
     """
@@ -76,6 +81,7 @@ def haiku_index_view():
     if haiku_id is None:
         haiku_id = 0
     return redirect(url_for("haiku_view", haiku_id=haiku_id, is_default=1))
+
 
 @app.route("/haiku/<int:haiku_id>")
 def haiku_view(haiku_id):
@@ -107,6 +113,7 @@ def haiku_view(haiku_id):
         context=context,
         title="Haiku of the Day")
 
+
 @app.route("/prompt")
 def prompt_view():
     """
@@ -120,6 +127,7 @@ def prompt_view():
         title="Haiku generation"
     )
 
+
 @app.route("/scan")
 def scan_view():
     """
@@ -132,6 +140,7 @@ def scan_view():
         "scan.html",
         title="Image scanning"
     )
+
 
 @app.route("/api/v1/haiku", methods=['POST'])
 def generate_haiku():
@@ -156,6 +165,7 @@ def generate_haiku():
         return str(id)
     else:
         return "Method not allowed", 405
+
 
 @app.route('/favicon.ico')
 def favicon():

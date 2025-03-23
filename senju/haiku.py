@@ -4,21 +4,27 @@ Haiku Generation Module
 
 A client interface for AI-powered haiku poem generation.
 
-This module provides the core functionality for communicating with an Ollama-based
-AI service to generate three-line haiku poems. It handles the entire generation
-process, from sending properly formatted requests to processing and validating
+This module provides the core functionality for communicating
+with an Ollama-based
+AI service to generate three-line haiku poems. It handles the
+entire generation
+process, from sending properly formatted requests to processing
+and validating
 the returned poems.
 
 Classes
 -------
 Haiku
-    A dataclass representation of a haiku poem, providing structure for storage,
+    A dataclass representation of a haiku poem, providing structure
+for storage,
     manipulation and serialization of poem data.
 
     **Methods**:
 
-    * ``to_json()``: Converts a haiku instance to JSON format for API responses
-    * ``generate_haiku(seed_text)``: Creates a new haiku using the AI service
+    * ``to_json()``: Converts a haiku instance to JSON format for API
+        responses
+    * ``generate_haiku(seed_text)``: Creates a new haiku using
+        the AI service
 
 Constants
 ---------
@@ -40,7 +46,8 @@ Dependencies
 
 Implementation Details
 ----------------------
-The module implements a robust communication pattern with the AI service, including:
+The module implements a robust communication pattern with the
+AI service, including:
 
 1. Proper request formatting with seed text integration
 2. Multiple retry attempts for handling temporary service issues
@@ -88,9 +95,11 @@ class Haiku:
     @staticmethod
     def request_haiku(seed: str) -> 'Haiku':
         """
-        Generates a haiku using an AI model based on the provided seed text.
+        Generates a haiku using an AI model based on the
+        provided seed text.
 
-        This function prompts the AI to generate a haiku based on the user input.
+        This function prompts the AI to generate a haiku based on the
+        user input.
         It validates that the response contains exactly 3 lines.
         The function will retry until a valid haiku is generated.
 
@@ -99,7 +108,8 @@ class Haiku:
         :return: A new Haiku object containing the generated three lines.
         :rtype: Haiku
 
-        :raises: Possible JSONDecodeError which is caught and handled with retries.
+        :raises: Possible JSONDecodeError which is caught and handled
+        with retries.
         """
         ai_gen_request = {
             "model": "haiku",
