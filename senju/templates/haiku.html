@@ -9,14 +9,17 @@
 					{{ line }}<br>
 				{% endfor %}
 			</p>
-			<button id="speak-button" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg">
-				<span class="flex items-center">
+			<div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+				<button id="speak-button" class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg flex items-center justify-center">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+						<path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" />
 					</svg>
 					Speak Haiku
-				</span>
-			</button>
+				</button>
+				<select id="voice-select" class="rounded-lg border border-gray-300 px-3 py-2 text-gray-700 max-w-full truncate" style="max-width: 200px; text-overflow: ellipsis;">
+					<option value="">Default Voice</option>
+				</select>
+			</div>
 		</div>
 		<a href="{{ url_for('index_view') }}"
 			class="inline-block bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded-lg mt-6">
@@ -25,35 +28,203 @@
 	</div>
 </div>
 <script>
-	document.addEventListener('DOMContentLoaded', function () {
-    const speakButton = document.getElementById('speak-button');
-    const haikuText = document.getElementById('haiku-text');
-
-    function speakText() {
-        const textContent = haikuText.innerText.trim();
-        console.log("Speaking text:", textContent);
-
-        const msg = new SpeechSynthesisUtterance(textContent);
-        const voices = window.speechSynthesis.getVoices();
-
-        if (voices.length > 0) {
-            msg.voice = voices[0]; // Use the first available voice
-        } else {
-            console.warn("No voices available!");
-        }
-
-        window.speechSynthesis.cancel(); // Stop any previous speech
-        window.speechSynthesis.speak(msg);
-    }
-
-    if ('speechSynthesis' in window) {
-        speechSynthesis.onvoiceschanged = () => {
-            console.log("Voices loaded:", speechSynthesis.getVoices());
-            speakButton.addEventListener('click', speakText);
-        };
-    } else {
-        speakButton.style.display = 'none';
-    }
-});
-
+	document.addEventListener('DOMContentLoaded', function() {
+		const speakButton = document.getElementById('speak-button');
+		const haikuText = document.getElementById('haiku-text');
+		const voiceSelect = document.getElementById('voice-select');
+		let speaking = false;
+		let voices = [];
+		
+		// Check if speech synthesis is supported
+		if (!('speechSynthesis' in window)) {
+			speakButton.disabled = true;
+			voiceSelect.disabled = true;
+			speakButton.title = "Speech synthesis not supported in your browser";
+			speakButton.classList.add('opacity-50');
+			console.error("Speech synthesis not supported");
+		}
+		
+		function loadVoices() {
+			voices = window.speechSynthesis.getVoices();
+			
+			voiceSelect.innerHTML = '<option value="">Default Voice</option>';
+			
+			const preferredVoices = voices.filter(voice => 
+				voice.name.includes('Natural') || 
+				voice.name.includes('Premium') || 
+				voice.name.includes('Neural') ||
+				voice.name.includes('Enhanced')
+			);
+			
+			// Add preferred voices first
+			preferredVoices.forEach(voice => {
+				const option = document.createElement('option');
+				option.value = voice.name;
+				option.textContent = `${voice.name} (${voice.lang}) ★`;
+				voiceSelect.appendChild(option);
+			});
+			
+			// Add remaining voices
+			voices.forEach(voice => {
+				if (!preferredVoices.includes(voice)) {
+					const option = document.createElement('option');
+					option.value = voice.name;
+					option.textContent = `${voice.name} (${voice.lang})`;
+					voiceSelect.appendChild(option);
+				}
+			});
+			
+			// Pre-select a good voice if available
+			for (const searchTerm of ['Neural', 'Premium', 'Natural', 'Enhanced', 'Daniel', 'Samantha', 'Karen']) {
+				const goodVoice = Array.from(voiceSelect.options).find(option => 
+					option.text.includes(searchTerm)
+				);
+				if (goodVoice) {
+					voiceSelect.value = goodVoice.value;
+					break;
+				}
+			}
+		}
+		
+		// Load voices when available
+		if (window.speechSynthesis.onvoiceschanged !== undefined) {
+			window.speechSynthesis.onvoiceschanged = loadVoices;
+		}
+		
+		// Initial load attempt
+		setTimeout(loadVoices, 100);
+		
+		// Function to extract the haiku text properly
+		function getHaikuText() {
+			try {
+				// First try using innerText
+				let rawText = haikuText.innerText;
+				if (rawText && rawText.trim()) {
+					return rawText.trim();
+				}
+				
+				// If that fails, try getting individual text nodes
+				let lines = [];
+				Array.from(haikuText.childNodes).forEach(node => {
+					if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+						lines.push(node.textContent.trim());
+					}
+				});
+				
+				// If we got lines, join them
+				if (lines.length > 0) {
+					return lines.join(' ');
+				}
+				
+				// If nothing worked, fall back to extracting from HTML
+				return haikuText.textContent.replace(/<br>/g, ' ').trim();
+			} catch (e) {
+				console.error("Error extracting haiku text:", e);
+				
+				try {
+					return "{{ context.haiku.lines|join(' ') }}";
+				} catch (e2) {
+					return "Could not retrieve haiku text.";
+				}
+			}
+		}
+		
+		// Function to add natural pauses between haiku lines
+		function addPausesToHaiku(text) {
+			// Split by line breaks or typical line separators
+			const lines = text.split(/[\n\r]+|<br>|\. /).filter(line => line.trim().length > 0);
+			
+			if (lines.length <= 1) {
+				return text;
+			}
+			
+			// Join with pauses (using SSML pause syntax)
+			return lines.join('. ');
+		}
+		
+		speakButton.addEventListener('click', function() {
+			try {
+				// If already speaking, stop
+				if (speaking) {
+					window.speechSynthesis.cancel();
+					speaking = false;
+					speakButton.classList.remove('bg-violet-800');
+					speakButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" /></svg> Speak Haiku';
+					return;
+				}
+				
+				// Get the haiku text
+				let textContent = getHaikuText();
+				console.log("Speaking text:", textContent);
+				
+				if (!textContent || textContent === "") {
+					console.error("No text to speak");
+					alert("No text to speak");
+					return;
+				}
+				
+				// Add natural pauses
+				textContent = addPausesToHaiku(textContent);
+				
+				// Create a new speech synthesis instance
+				const msg = new SpeechSynthesisUtterance();
+				msg.text = textContent;
+				
+				// Set human-like speech parameters
+				msg.rate = 0.85;       // Slightly slower pace for poetry
+				msg.pitch = 1.0;       // Natural pitch
+				msg.volume = 1.0;      // Full volume
+				
+				// Set selected voice if available
+				if (voiceSelect.value) {
+					const selectedVoice = voices.find(voice => voice.name === voiceSelect.value);
+					if (selectedVoice) {
+						msg.voice = selectedVoice;
+					}
+				}
+				
+				// Stop any ongoing speech
+				window.speechSynthesis.cancel();
+				
+				// Set up event handlers
+				msg.onstart = function() {
+					speaking = true;
+					speakButton.classList.add('bg-violet-800');
+					speakButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clip-rule="evenodd" /></svg> Stop Speaking';
+				};
+				
+				msg.onend = function() {
+					speaking = false;
+					speakButton.classList.remove('bg-violet-800');
+					speakButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" /></svg> Speak Haiku';
+				};
+				
+				msg.onerror = function(event) {
+					console.error("Speech synthesis error:", event);
+					speaking = false;
+					speakButton.classList.remove('bg-violet-800');
+					speakButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071a1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243a1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828a1 1 0 010-1.415z" clip-rule="evenodd" /></svg> Speak Haiku';
+				};
+				
+				// Introduce a very slight delay before each line (to ensure natural pacing)
+				setTimeout(() => {
+					window.speechSynthesis.speak(msg);
+				}, 100);
+				
+			} catch (error) {
+				console.error("Speech synthesis error:", error);
+				speaking = false;
+				speakButton.classList.remove('bg-violet-800');
+				alert("Speech synthesis failed: " + error.message);
+			}
+		});
+		
+		// Ensure speech is canceled when navigating away from the page
+		window.addEventListener('beforeunload', function() {
+			if (window.speechSynthesis) {
+				window.speechSynthesis.cancel();
+			}
+		});
+	});
+</script>
 {% endblock %}
