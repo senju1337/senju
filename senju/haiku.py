@@ -130,3 +130,7 @@ class Haiku:
             except json.JSONDecodeError:
                 continue
         return haiku
+
+
+DEFAULT_HAIKU: Haiku = Haiku(["Purple petals rise", "Defying fragile beauty",
+                              "Fiercely breathing life"])

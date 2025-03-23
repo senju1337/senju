@@ -51,9 +51,18 @@ from typing import Optional
 from tinydb import TinyDB
 from tinydb.queries import QueryImpl
 
-from senju.haiku import Haiku
+from senju.haiku import DEFAULT_HAIKU, Haiku
 
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")
+
+
+class BadStoreManagerFileError(Exception):
+    def __init__(self, msg: str, * args: object) -> None:
+        self.msg = msg
+        super().__init__(*args)
+
+    def __str__(self) -> str:
+        return f"Store file is corrupted: {self.msg}"
 
 
 class StoreManager:
@@ -81,6 +90,11 @@ class StoreManager:
         :return: None
         """
         self._db = TinyDB(path_to_db)
+
+        try:
+            self._db = TinyDB(path_to_db)
+        except Exception as e:
+            raise BadStoreManagerFileError(f"{e}")
         self.logger = Logger(__name__)
 
     def _query(self, query: QueryImpl) -> list[dict]:
@@ -132,9 +146,13 @@ class StoreManager:
         :return: A Haiku object if found, None otherwise.
         :rtype: Optional[Haiku]
         """
+
+    def load_haiku(self, key: Optional[int]) -> Haiku:
+        if key is None:
+            return DEFAULT_HAIKU
         raw_haiku: dict | None = self._load(key)
         if raw_haiku is None:
-            return None
+            return DEFAULT_HAIKU
         h = Haiku(**raw_haiku)
         return h
 
