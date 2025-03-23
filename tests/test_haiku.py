@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 import json
 from pytest_httpserver import HTTPServer
+import requests
 
 # do not remove this import. This is needed for
 # pytest fixtures to work
@@ -68,3 +69,13 @@ def test_request_haiku(httpserver: HTTPServer):
     assert haiku.lines[1] == "faces in a crowd; Petal"
     assert haiku.lines[2] == "on a wet, black bough."
     assert len(haiku.lines) == 3
+
+
+def test_request_haiku_respondse_bad(httpserver: HTTPServer):
+    with pytest.raises(requests.exceptions.JSONDecodeError):
+
+        httpserver.expect_request(
+            "/testhaiku").respond_with_data("this is completely wrong" + ("A" * 50 + "\n") * 20)
+
+        _haiku = Haiku.request_haiku(
+            "apple banana papaya", url=httpserver.url_for("/testhaiku"))
