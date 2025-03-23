@@ -10,13 +10,6 @@ AI_BASE_URL: str = "http://ollama:11434/api"
 AI_GEN_ENDPOINT: str = "/generate"
 
 
-def foobar():
-    """WE KNOW"""
-    a = 3
-    b = 3
-    return a + b
-
-
 @dataclass
 class Haiku:
     lines: list[str]
@@ -46,7 +39,7 @@ class Haiku:
 
                 lines = ai_response.split("\n")
 
-                for _ in range(0, 2):
+                while len(lines) != 3:
                     lines.pop()
 
                 logging.warning(lines)

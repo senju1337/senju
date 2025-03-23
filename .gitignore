@@ -175,5 +175,9 @@ pyrightconfig.json
 # Ollama Local Dir
 ollama
 
+
+# Yes i know
+*.kate-swp
 # sphinx rst files
 docs/source/_modules
+
