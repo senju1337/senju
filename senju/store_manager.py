@@ -56,13 +56,6 @@ from senju.haiku import Haiku
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")
 
 
-def foobar():
-    """WE KNOW"""
-    a = 3
-    b = 3
-    return a + b
-
-
 class StoreManager:
     """
     Manages the storage and retrieval of haiku data using TinyDB.
