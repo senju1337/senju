@@ -56,15 +56,46 @@ function handleSubmit() {
     // Hide error
     errorMessage.classList.add("hidden");
 
-    // Show response box
+    // Show loading state
+    document.getElementById("ai-response").textContent = "Analyzing image...";
     responseBox.classList.remove("opacity-0");
 
-    // Example response
-    document.getElementById("ai-response").textContent =
-      "Dominic Monaghan interviewing Elijah Wood if he will wear wigs";
+    // Get the file from the input
+    const file = dropzoneFile.files[0];
+
+    // Create FormData object to send the file
+    const formData = new FormData();
+    formData.append("image", file);
+
+    // Send the image to your backend API
+    fetch("/api/v1/image_reco", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Extract top result and display it
+        if (data.results && data.results.length > 0) {
+          const topResult = data.results[0];
+          document.getElementById("ai-response").textContent =
+            `${topResult.label} (${Math.round(topResult.confidence * 100)}% confidence)`;
+        } else {
+          document.getElementById("ai-response").textContent =
+            "Could not identify the image";
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        document.getElementById("ai-response").textContent =
+          "Error analyzing image";
+      });
   } else {
     errorMessage.classList.remove("hidden");
-
     uploadArea.classList.add("shake");
     setTimeout(() => {
       uploadArea.classList.remove("shake");

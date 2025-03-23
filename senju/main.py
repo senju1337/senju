@@ -6,6 +6,7 @@ from flask import (Flask, redirect, render_template, request, url_for,
                    send_from_directory)
 
 from senju.haiku import Haiku
+from senju.image_reco import SimpleClassifier
 from senju.store_manager import StoreManager
 
 import os
@@ -58,6 +59,23 @@ def scan_view():
         "scan.html",
         title="Image scanning"
     )
+
+
+@app.route("/api/v1/image_reco", methods=['POST'])
+def image_recognition():
+    # note that the classifier is a singleton
+    classifier = SimpleClassifier()
+    if 'image' not in request.files:
+        return "No image file provided", 400
+
+    image_file = request.files['image']
+    image_data = image_file.read()
+
+    try:
+        results = classifier.classify(image_data)
+        return results
+    except Exception as e:
+        return str(e), 500
 
 
 @app.route("/api/v1/haiku", methods=['POST'])
