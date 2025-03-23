@@ -1,4 +1,4 @@
-FROM python:3.12-alpine AS base
+FROM python:3.11 AS base
 
 ENV POETRY_VIRTUALENVS_CREATE=true
 ENV FLASK_APP=senju/main.py
@@ -10,9 +10,9 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN apk add curl bash jq
+RUN apt update && apt install curl bash jq
 RUN pip install poetry
-RUN poetry install
+RUN poetry install -v
 
 FROM base as dev
 
