@@ -21,10 +21,6 @@ from senju.haiku import Haiku  # noqa: F401
 # Rust's libtest
 
 
-def test_tests_are_loaded():
-    assert True  # if we make it here, they are
-
-
 def test_temp_data_dir(temp_data_dir):
     print(temp_data_dir)
     testpath = temp_data_dir / "__test"
