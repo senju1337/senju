@@ -59,7 +59,7 @@ class ImageDescriptionGenerator:
         }
 
 
-g_descriptor:  ImageDescriptionGenerator = ImageDescriptionGenerator()
+g_descriptor: ImageDescriptionGenerator = ImageDescriptionGenerator()
 
 
 def gen_response(image_data) -> dict:
