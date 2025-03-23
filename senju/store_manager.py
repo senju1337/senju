@@ -7,7 +7,6 @@ from typing import Optional
 from tinydb import TinyDB
 from tinydb.queries import QueryImpl
 
-from senju import haiku
 from senju.haiku import DEFAULT_HAIKU, Haiku
 
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")

@@ -2,7 +2,6 @@
 # pytest fixtures to work
 from __future__ import annotations
 
-from _pytest.mark.structures import store_mark
 import pytest  # noqa: F401
 
 from senju.haiku import DEFAULT_HAIKU, Haiku
