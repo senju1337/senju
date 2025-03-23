@@ -14,8 +14,6 @@ RUN apt update && apt install curl bash jq
 RUN pip install poetry
 RUN poetry install -v
 
-FROM base as dev
-
 # Expose development port
 EXPOSE 5000
 

@@ -1,28 +1,25 @@
-{% extends "base.html" %} {% block content %}
-<div
-  class="flex flex-col items-center justify-center min-h-screen bg-violet-900 text-white p-6"
->
-  <div
-    class="bg-white text-gray-900 p-8 rounded-xl shadow-lg max-w-lg w-full text-center transform transition duration-300 hover:scale-105"
-  >
-    <h1 class="text-3xl font-bold text-violet-700 mb-4">
-      Very 1337 prompt input
-    </h1>
-    <div class="flex flex-col gap-4">
-      <input
-        type="text"
-        id="user-input"
-        minlength="0"
-        maxlength="100"
-        placeholder="Type your prompt here..."
-        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600"
-      />
-      <button
-        id="submit-btn"
-        class="bg-violet-600 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-md transition duration-300 hover:bg-violet-700 hover:scale-105"
-      >
-        🚀 Submit
-      </button>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-screen bg-violet-900 text-white p-6">
+    <div class="bg-white text-gray-900 p-8 rounded-xl shadow-lg max-w-lg w-full text-center transform transition duration-300 hover:scale-105">
+        <h1 class="text-3xl font-bold text-violet-700 mb-4">Very 1337 prompt input</h1>
+        <div class="flex flex-col gap-4">
+            <input
+                type="text"
+                id="user-input"
+                minlength="0"
+                maxlength="100"
+                placeholder="Type your prompt here..."
+                class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600"
+            />
+            <button
+                id="submit-btn"
+                class="bg-violet-600 text-white font-bold py-3 px-6 rounded-lg text-lg shadow-md transition duration-300 hover:bg-violet-700 hover:scale-105"
+            >
+                🚀 Submit
+            </button>
+        </div>
     </div>
   </div>
 
