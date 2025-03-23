@@ -61,7 +61,8 @@ def test_request_haiku_respondse_bad(httpserver: HTTPServer):
     with pytest.raises(requests.exceptions.JSONDecodeError):
 
         httpserver.expect_request(
-            "/testhaiku").respond_with_data("this is completely wrong" + ("A" * 50 + "\n") * 20)
+            "/testhaiku").respond_with_data(
+            "this is completely wrong" + ("A" * 50 + "\n") * 20)
 
-        _haiku = Haiku.request_haiku(
+        Haiku.request_haiku(
             "apple banana papaya", url=httpserver.url_for("/testhaiku"))
