@@ -8,7 +8,7 @@
             <input
                 type="text"
                 id="user-input"
-                minlength="0" 
+                minlength="0"
                 maxlength="100"
                 placeholder="Type your prompt here..."
                 class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-600"
@@ -39,9 +39,6 @@ document.getElementById("submit-btn").addEventListener("click", function() {
 
     if (userInput.trim() === "") {
         responseText.textContent = "Please enter a prompt!";
-    } 
-    else if (userInput.length > 100) {
-        responseText.textContent = "Input must under 100 characters long!";
     }
     else if (userInput.trim() === "amogus") {
         responseText.textContent = "🤖 AI is thinking...";
@@ -51,7 +48,7 @@ document.getElementById("submit-btn").addEventListener("click", function() {
         setTimeout(() => {
             responseText.textContent = "Sus imposter ඞ";
         }, 1500);
-    } 
+    }
     else {
         responseText.textContent = "🤖 AI is thinking...";
         responseBox.classList.remove("opacity-0");

@@ -12,7 +12,7 @@
 <body>
     <div class="flex flex-col items-center justify-center min-h-screen bg-violet-900 text-white p-6">
         <div class="bg-white text-gray-900 p-8 rounded-xl shadow-lg max-w-lg w-full text-center transform transition duration-300 hover:scale-105 mb-8">
-            
+
         <h1 class="text-3xl font-bold text-violet-700 mb-4">Upload your image</h1>
             <!-- File Upload container-->
             <div id="upload-area" class="flex items-center justify-center w-full">
@@ -27,7 +27,7 @@
                     <input id="dropzone-file" type="file" accept="image/*" class="hidden" />
                 </label>
             </div>
-            
+
             <!-- Image Preview container-->
             <div id="image-preview" class="w-full hidden">
                 <div class="relative">
@@ -39,17 +39,17 @@
                     </button>
                 </div>
             </div>
-            
+
             <!-- Error message -->
             <div id="error-message" class="mt-4 text-red-500 hidden">
                 Please upload an image first.
             </div>
-            
+
             <button id="submit-button" type="submit" class="mt-6 bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                 Submit
             </button>
-        </div> 
-        
+        </div>
+
         <div id="response-box" class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center opacity-0 transition-opacity duration-500 ease-in-out">
             <h2 class="text-2xl font-semibold text-violet-700">AI recognized the following:</h2>
             <p id="ai-response" class="text-lg text-gray-700 mt-2 italic">Waiting for input...</p>
@@ -62,7 +62,7 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- New generating haiku div that appears after "Yes" is clicked -->
         <div id="generating-haiku-box" class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center hidden transition-opacity duration-500 ease-in-out">
             <h2 class="text-2xl font-semibold text-violet-700">Generating Haiku</h2>
@@ -103,24 +103,24 @@ Vote him, task complete.</h2>
         const yesButton = document.getElementById('yes-button');
         const noButton = document.getElementById('no-button');
         const generatingHaikuBox = document.getElementById('generating-haiku-box');
-        const generatedHaikuBox = document.getElementById('generated-haiku-box'); 
+        const generatedHaikuBox = document.getElementById('generated-haiku-box');
         let imageUploaded = false;
 
         function handleFileSelect(event) {
             const file = event.target.files[0];
-            
+
             if (file && file.type.startsWith('image/')) {
                 // Create a URL for the selected image
                 const imageUrl = URL.createObjectURL(file);
-                
+
                 // Set the image source
                 previewImg.src = imageUrl;
-                
+
                 // Hide upload area and show image preview
                 uploadArea.classList.add('hidden');
                 imagePreview.classList.remove('hidden');
                 errorMessage.classList.add('hidden');
-                
+
                 // Set flag that image is uploaded
                 imageUploaded = true;
             }
@@ -128,14 +128,14 @@ Vote him, task complete.</h2>
 
         function removeImage() {
             dropzoneFile.value = '';
-            
-            // Hide image 
+
+            // Hide image
             imagePreview.classList.add('hidden');
             uploadArea.classList.remove('hidden');
-            
+
             URL.revokeObjectURL(previewImg.src);
             previewImg.src = '';
-            
+
             imageUploaded = false;
             responseBox.classList.add('opacity-0');
             generatingHaikuBox.classList.add('hidden');
@@ -148,32 +148,33 @@ Vote him, task complete.</h2>
             if (imageUploaded) {
                 // Hide error
                 errorMessage.classList.add('hidden');
-                
-                // Show response box 
+
+                // Show response box
                 responseBox.classList.remove('opacity-0');
-                
+           
                 // Example response 
                 document.getElementById('ai-response').textContent = 'Example text';
+
             } else {
-                
+
                 errorMessage.classList.remove('hidden');
-                
+
                 uploadArea.classList.add('shake');
                 setTimeout(() => {
                     uploadArea.classList.remove('shake');
                 }, 600);
             }
         }
-        
+
        function handleYesClick() {
     // Hide response box
     responseBox.classList.add('opacity-0');
-    
+
     // Show generating haiku box first
     setTimeout(() => {
         responseBox.classList.add('hidden');
         generatingHaikuBox.classList.remove('hidden');
-        
+
         // After a delay, hide generating box and show result
         setTimeout(() => {
             generatingHaikuBox.classList.add('hidden');
@@ -184,13 +185,13 @@ Vote him, task complete.</h2>
             // Reset everything
             removeImage();
         }
-        
+
         dropzoneFile.addEventListener('change', handleFileSelect);
         removeImageBtn.addEventListener('click', removeImage);
         submitButton.addEventListener('click', handleSubmit);
         yesButton.addEventListener('click', handleYesClick);
         noButton.addEventListener('click', handleNoClick);
-        
+
         // Add some CSS animation
         document.head.insertAdjacentHTML('beforeend', `
         <style>
