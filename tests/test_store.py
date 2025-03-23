@@ -68,3 +68,28 @@ def test_load_latest_or_default_with_non_empty(temp_data_dir):
     haiku = store.load_haiku(store.get_id_of_latest_haiku())
     assert haiku != DEFAULT_HAIKU
     assert haiku == nonsense_test_haiku
+
+
+def test_load_latest_with_non_empty_store(temp_data_dir):
+    store = StoreManager(temp_data_dir / "empty_store.json")
+    store.save_haiku(Haiku(["hello", "world", "bananenkrokodil"]))
+    h = store.get_id_of_latest_haiku()
+    assert h is not None
+    assert h > 0
+
+
+def test_create_store_with_bad_file(temp_data_dir):
+    with pytest.raises(Exception):
+        testpath = temp_data_dir / "non_empty.json"
+        with open(testpath, "w") as f:
+            f.write("BUT IT DOES NOT ACTUALLY HAVE JSON")
+        store = StoreManager(testpath)
+        store._save({"hello": 19})
+
+
+def test_create_store_with_non_empty(temp_data_dir):
+    testpath = temp_data_dir / "non_empty.json"
+    with open(testpath, "w") as f:
+        f.write('{"this": ["is","valid","json"]}')
+    store = StoreManager(testpath)
+    store._save({"hello": 19})
