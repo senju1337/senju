@@ -7,7 +7,8 @@ from typing import Optional
 from tinydb import TinyDB
 from tinydb.queries import QueryImpl
 
-from senju.haiku import Haiku
+from senju import haiku
+from senju.haiku import DEFAULT_HAIKU, Haiku
 
 DEFAULT_DB_PATH: Path = Path("/var/lib/senju.json")
 
@@ -51,3 +52,12 @@ class StoreManager:
         except IndexError as e:
             self.logger.error(f"The database seems to be empty: {e}")
             return None
+
+    def get_latest_haiku_or_default(self) -> Haiku:
+        id = self.get_id_of_latest_haiku()
+        if id is None:
+            return DEFAULT_HAIKU
+        haiku = self.load_haiku(id)
+        if haiku is None:
+            return DEFAULT_HAIKU
+        return haiku
