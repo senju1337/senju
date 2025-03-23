@@ -137,7 +137,7 @@ class StoreManager:
         """
         return self._db.insert(data)
 
-    def load_haiku(self, key: int) -> Optional[Haiku]:
+    def load_haiku(self, key: Optional[int]) -> Haiku:
         """
         Load a haiku by its ID.
 
@@ -146,8 +146,6 @@ class StoreManager:
         :return: A Haiku object if found, None otherwise.
         :rtype: Optional[Haiku]
         """
-
-    def load_haiku(self, key: Optional[int]) -> Haiku:
         if key is None:
             return DEFAULT_HAIKU
         raw_haiku: dict | None = self._load(key)
