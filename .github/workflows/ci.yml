@@ -3,7 +3,7 @@ name: CI  # Name of the workflow
 on:
   push:
     branches:
-      - '*'
+      - feat/OPS-31
   pull_request:
     branches:
       - devel
