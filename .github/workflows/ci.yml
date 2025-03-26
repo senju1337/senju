@@ -1,10 +1,9 @@
 name: CI  # Name of the workflow
 
 on:
-  pull_request:
+  push:
     branches:
-      - devel
-      - master
+      - feat/OPS-31
 
 jobs:
   test:  # Defines a job called "test"
