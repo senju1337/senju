@@ -44,6 +44,7 @@ for the complete web interface are defined within this module.
 from __future__ import annotations
 
 import os
+import random
 from pathlib import Path
 
 from flask import (Flask, redirect, render_template, request,
@@ -65,7 +66,15 @@ def index_view():
     :return: The index.html template with title "Senju".
     :rtype: flask.Response
     """
-    return render_template("index.html", title="Senju")
+    random_number = random.randint(0, store.count_entries())
+    haiku: Haiku | None = store.load_haiku(random_number)
+    if haiku is None:
+        raise KeyError("haiku not found")
+    context: dict = {
+        "haiku": haiku,
+    }
+
+    return render_template("index.html", context=context, title="Senju")
 
 
 @app.route("/haiku/")
