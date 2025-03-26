@@ -3,7 +3,8 @@ name: CI  # Name of the workflow
 on:
   pull_request:
     branches:
-      - devel  # Runs only when a pull request targets the 'devel' branch
+      - devel
+      - master
 
 jobs:
   test:  # Defines a job called "test"
