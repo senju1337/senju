@@ -168,6 +168,12 @@ def scan_view():
 
 @app.route("/api/v1/image_reco", methods=['POST'])
 def image_recognition():
+    """
+    generate a description of an image
+
+    :return: json formatted description
+    :rtype: json
+    """
     # note that the classifier is a singleton
     if 'image' not in request.files:
         return "No image file provided", 400

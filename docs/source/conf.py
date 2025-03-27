@@ -13,9 +13,9 @@ import sys
 sys.path.insert(0, os.path.abspath("../../senju"))
 
 project = 'senju'
-copyright = '2025, senju hashirama'
-author = 'senju hashirama'
-release = 'before the light'
+copyright = '2025, senju project'
+author = 'senju project'
+# release = ''
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 

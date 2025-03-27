@@ -16,8 +16,7 @@ Classes
 -------
 Haiku
     A dataclass representation of a haiku poem, providing structure
-for storage,
-    manipulation and serialization of poem data.
+    for storage, manipulation and serialization of poem data.
 
     **Methods**:
 
@@ -109,8 +108,8 @@ class Haiku:
         :return: A new Haiku object containing the generated three lines.
         :rtype: Haiku
 
-        :raises: Possible JSONDecodeError which is caught and handled
-        with retries.
+        :raises: Exception if took the llm too many tries to write a fitting
+            haiku or JSONDecodeError if working with JSON failed
         """
         ai_gen_request = {
             "model": "haiku",
