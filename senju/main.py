@@ -219,6 +219,7 @@ def favicon():
                                'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
 
+
 @app.route('/info')
 def info_view():
     """
@@ -231,4 +232,3 @@ def info_view():
         "info.html",
         title="Info"
     )
-
