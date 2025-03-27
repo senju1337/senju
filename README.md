@@ -12,7 +12,7 @@
         <img src="https://codecov.io/gh/senju1337/senju/branch/master/graph/badge.svg" alt="Code Coverage"/>
     </a>
     <a href="https://github.com/senju1337/senju/actions">
-        <img src="https://img.shields.io/github/actions/workflow/status/senju1337/senju/python.yml?label=Python%20CI" alt="Build Status"/>
+        <img src="https://img.shields.io/github/actions/workflow/status/senju1337/senju/tests.yml?label=Python tests%20CI" alt="Tests Status"/>
     </a>
     <a href="https://github.com/senju1337/senju/blob/master/LICENSE">
         <img src="https://img.shields.io/github/license/senju1337/senju" alt="License"/>
