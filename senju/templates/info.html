@@ -3,90 +3,82 @@
 {% block content %}
   <style>
     .grid-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Two columns per row */
-      gap: 30px;
-      justify-content: center;
-      align-items: start;
-      padding: 50px;
-    }
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns per row */
+  gap: 30px;
+  justify-content: center;
+  align-items: start;
+  padding: 50px;
+}
 
-    .grid-item {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      transition: 0.5s;
-      position: relative;
-    }
+.grid-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
 
-    .grid-item img {
-      --f: .1; /* the parallax factor */
-      --r: 10px; /* radius */
-      
-      --_f: calc(100% * var(--f) / (1 + var(--f)));
-      --_a: calc(90deg * var(--f));
-      width: 150px;
-      aspect-ratio: calc(1 + var(--f));
-      object-fit: cover;
-      clip-path: inset(0 var(--_f) 0 0 round var(--r));
-      transform: perspective(400px) var(--_t, rotateY(var(--_a)));
-      transition: 0.5s;
-      cursor: pointer;
-    }
+/* Parallax Image Effect */
+.grid-item img {
+  --f: .1; /* Parallax factor */
+  --r: 10px; /* Radius */
+  
+  --_f: calc(100% * var(--f) / (1 + var(--f)));
+  --_a: calc(90deg * var(--f));
+  width: 150px;
+  aspect-ratio: calc(1 + var(--f));
+  object-fit: cover;
+  clip-path: inset(0 var(--_f) 0 0 round var(--r));
+  transform: perspective(400px) var(--_t, rotateY(var(--_a)));
+  transition: 0.5s;
+  cursor: pointer;
+}
 
-    .grid-item img:hover {
-      clip-path: inset(0 0 0 var(--_f) round var(--r));
-      --_t: translateX(calc(-1 * var(--_f))) rotateY(calc(-1 * var(--_a)));
-    }
+.grid-item img:hover {
+  clip-path: inset(0 0 0 var(--_f) round var(--r));
+  --_t: translateX(calc(-1 * var(--_f))) rotateY(calc(-1 * var(--_a)));
+}
 
-    /* Member Info Box */
-    .info-box {
-      width: 250px;
-      padding: 12px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 10px;
-      color: white;
-      text-align: left;
-      backdrop-filter: blur(5px);
-      transition: 0.5s;
-      font-family: Arial, sans-serif;
-    }
+/* Info Box (No effect, solid background) */
+.info-box {
+  width: 250px;
+  padding: 12px;
+  background: #fff; /* Solid white */
+  border-radius: 10px;
+  color: black;
+  text-align: left;
+  font-family: Arial, sans-serif;
+}
 
-    .info-box h2 {
-      margin: 5px 0;
-      font-size: 18px;
-    }
+.info-box h2 {
+  margin: 5px 0;
+  font-size: 18px;
+}
 
-    .info-box p {
-      margin: 5px 0;
-      font-size: 14px;
-    }
+.info-box p {
+  margin: 5px 0;
+  font-size: 14px;
+}
 
-    .info-box .title {
-      font-weight: bold;
-    }
+.info-box .title {
+  font-weight: bold;
+}
 
-    .button {
-      background-color: #7c3aed;
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      text-align: center;
-      font-size: 14px;
-      cursor: pointer;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
+.button {
+  background-color: #7c3aed;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
 
-    .button:hover {
-      background-color: #8b5cf6;
-    }
-
-    /* Make both image & info box move on hover */
-    .grid-item:hover img,
-    .grid-item:hover .info-box {
-      transform: translateX(calc(-1 * var(--_f))) rotateY(calc(-1 * var(--_a)));
-    }
+.button:hover {
+  background-color: #8b5cf6;
+}
 
   </style>
   
@@ -95,7 +87,7 @@
       <img src="https://avatars.githubusercontent.com/u/58274330?v=4" alt="PlexSheep">
       <div class="info-box">
         <h2>PlexSheep</h2>
-        <p class="title text-violet-300">Backend Developer</p>
+        <p class="title text-violet-900">Backend Developer</p>
         <p>Cyber Security Student, passionate Hobbyist, Networkadmin and Sotware Engineer</p>
 
 <a href="https://github.com/PlexSheep">Github</a>
@@ -108,7 +100,7 @@
       <img src="https://avatars.githubusercontent.com/u/119286812?v=4" alt="0xjrx" style="--f:.12;--r:5px">
       <div class="info-box">
         <h2>0xjrx</h2>
-        <p class="title text-violet-300">Frontend Developer</p>
+        <p class="title text-violet-900">Frontend Developer</p>
         <p>Cyber Security Student working on malware research and development.</p>
         <a href="https://github.com/0xjrx">Github</a>
 
@@ -121,7 +113,7 @@
       <img src="https://avatars.githubusercontent.com/u/45919207?v=4" alt="0xalivecow" style="--f:.08;--r:20px">
       <div class="info-box">
         <h2>0xalivecow</h2>
-        <p class="title text-violet-300" >Backend Developer</p>
+        <p class="title text-violet-900" >Backend Developer</p>
         <p>Cyber Security Student with a focus on Linux Security</p>
         <a href="https://github.com/0xalivecow">Github</a>
 
@@ -134,8 +126,8 @@
       <img src="https://avatars.githubusercontent.com/u/134395490?v=4" alt="Amrasil" style="--f:.08;--r:20px">
       <div class="info-box">
         <h2>Amrasil</h2>
-        <p class="title text-violet-300">Documentation and Code coverage</p>
-        <p>Cyber Security student passionate about BDO and Machine Learning.</p>
+        <p class="title text-violet-900">Documentation and Code coverage</p>
+        <p>Cyber Security student passionate about Mathematics and Machine Learning.</p>
         
 <a href="https://github.com/Amrasil">Github</a>
 
