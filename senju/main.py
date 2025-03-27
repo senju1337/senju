@@ -60,6 +60,7 @@ app = Flask(__name__)
 store = StoreManager(Path("/tmp/store.db"))
 
 stored_date = date.today()
+random_number = 1
 
 
 @app.route("/")
@@ -71,8 +72,8 @@ def index_view():
     :rtype: flask.Response
     """
     global stored_date
+    global random_number
 
-    random_number = 1
     if stored_date != date.today():
         random_number = random.randint(0, store.count_entries())
         stored_date = date.today()
