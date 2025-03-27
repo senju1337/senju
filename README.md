@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt="senju logo" src="./docs/source/_static/kanji.png" width="60%"/>
+    <img alt="senju logo" src="./docs/source/_static/kanji.png" width="30%"/>
     <h1>千手 Senju</h1>
     <h3>🎋 Poetry in Motion 🎎</h3>
     <p>
