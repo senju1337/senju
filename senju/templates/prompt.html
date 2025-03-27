@@ -21,15 +21,21 @@
             </button>
         </div>
     </div>
+  </div>
 
-    <div id="response-box" class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center opacity-0 transition-opacity duration-500 ease-in-out">
-        <h2 class="text-2xl font-semibold text-violet-700">Response:</h2>
-        <p id="ai-response" class="text-lg text-gray-700 mt-2 italic">Waiting for input...</p>
-    </div>
+  <div
+    id="response-box"
+    class="mt-8 bg-white text-gray-900 p-6 rounded-lg shadow-lg max-w-lg w-full text-center opacity-0 transition-opacity duration-500 ease-in-out"
+  >
+    <h2 class="text-2xl font-semibold text-violet-700">Response:</h2>
+    <p id="ai-response" class="text-lg text-gray-700 mt-2 italic">
+      Waiting for input...
+    </p>
+  </div>
 </div>
 
 <script>
-document.getElementById("submit-btn").addEventListener("click", function() {
+  document.getElementById("submit-btn").addEventListener("click", function () {
     let userInput = document.getElementById("user-input").value;
     let responseBox = document.getElementById("response-box");
     let responseText = document.getElementById("ai-response");
@@ -38,37 +44,37 @@ document.getElementById("submit-btn").addEventListener("click", function() {
     responseBox.classList.add("opacity-0");
 
     if (userInput.trim() === "") {
-        responseText.textContent = "Please enter a prompt!";
-    }
-    else if (userInput.trim() === "amogus") {
-        responseText.textContent = "🤖 AI is thinking...";
-        responseBox.classList.remove("opacity-0");
+      responseText.textContent = "Please enter a prompt!";
+    } else if (userInput.length > 100) {
+      responseText.textContent = "Input must under 100 characters long!";
+    } else if (userInput.trim() === "amogus") {
+      responseText.textContent = "🤖 AI is thinking...";
+      responseBox.classList.remove("opacity-0");
 
-        // Simulated AI response delay
-        setTimeout(() => {
-            responseText.textContent = "Sus imposter ඞ";
-        }, 1500);
-    }
-    else {
-        responseText.textContent = "🤖 AI is thinking...";
-        responseBox.classList.remove("opacity-0");
+      // Simulated AI response delay
+      setTimeout(() => {
+        responseText.textContent = "Sus imposter ඞ";
+      }, 1500);
+    } else {
+      responseText.textContent = "🤖 AI is thinking...";
+      responseBox.classList.remove("opacity-0");
 
-        fetch('/api/v1/haiku', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 'prompt': userInput })
+      fetch("/api/v1/haiku", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: userInput }),
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          let id = parseInt(data, 10);
+          window.location.href = "/haiku/" + id;
         })
-        .then(response => response.text())
-        .then(data => {
-            let id = parseInt(data, 10);
-            window.location.href = "/haiku/" + id;
-        })
-        .catch(error => {
-            responseText.textContent = 'Error: ' + error.message;
+        .catch((error) => {
+          responseText.textContent = "Error: " + error.message;
         });
     }
-});
+  });
 </script>
 {% endblock %}
