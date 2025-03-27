@@ -42,6 +42,7 @@ Senju (千手, "thousand hands") is a web service for haiku poetry generation an
 - **🔍 Browse Existing Haiku**: Gallery view of previously generated poetry
 - **💾 Persistent Storage**: All generated haiku are stored for future retrieval
 - **🖥️ Web Interface**: Clean, efficient, minimalist user experience for human interaction
+- **👂 Accessibility**: Text-to-speech integration for haikus
 
 ## 🔧 Installation
 
@@ -66,6 +67,16 @@ Docker desktop users on windows might need to change the line seperator from CRL
 - Pillow
 
 See `pyproject.toml` for a complete list of dependencies.
+
+#### Text To Speech
+
+The speech synthesis uses the functionalities of your Operating System. Depending on your System, you might need to install additional software to use speech synthesis. On Debian GNU/Linux, you need to do the following:
+
+```bash
+apt install espeakup speech-dispatcher
+```
+
+Senju uses [`window.speechSynthesis`](https://developer.mozilla.org/en-US/docs/Web/API/Window/speechSynthesis) for TTS.
 
 ## 🏯 Architecture
 
