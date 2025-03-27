@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>{{ title }}</title>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+	{% block head %}
+	{% endblock %}
+</head>
+
+<body class="h-full">
+	<div class="min-h-full bg-violet-950">
+		<nav class="bg-violet-600">
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div class="flex h-16 items-center justify-between">
+					<div class="flex items-center">
+						<div class="shrink-0">
+							<a href="{{ url_for('index_view') }}">
+								<img class="size-8" src="{{ url_for('static', filename='img/kanji.png') }}" alt="選集">
+
+							</a>
+						</div>
+						<div class="md:block">
+							<div class="ml-10 flex items-baseline space-x-4">
+								<a href="{{ url_for('index_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'index_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Start
+								</a>
+
+								<a href="{{ url_for('haiku_index_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'haiku_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Haiku
+								</a>
+								<a href="{{ url_for('prompt_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'prompt_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Haiku generation
+								</a>
+								<a href="{{ url_for('scan_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'scan_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Image scanning
+								</a>
+								<a href="{{ url_for('info_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'info_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Info
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="hidden md:block">
+						<div class="ml-4 flex items-center md:ml-6">
+							{% block navside %}
+							{% endblock %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<header class="bg-violet-500 shadow-sm flex flex-row items-stretch gap-6
+				px-6 py-3">
+			<div class="flex-1 place-self-center">
+				<h1 class="text-3xl font-bold tracking-tight text-gray-900">{{ title }}</h1>
+			</div>
+			<div class="flex-1 place-self-center grid place-items-end">
+				<div class="haiku text-left text-color-black">
+					紫の<br>
+					花が強くも<br>
+					生きている。<br>
+				</div>
+			</div>
+		</header>
+		<main class="bg-violet-900 min-h-170">
+			<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</main>
+	</div>
+</body>

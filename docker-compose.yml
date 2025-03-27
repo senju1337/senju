@@ -1,0 +1,22 @@
+services:
+  senju:
+    build:
+      context: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - ./senju:/app/senju
+    depends_on:
+      - ollama
+
+  ollama:
+    image: docker.io/ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+    container_name: ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+
+volumes:
+  ollama:

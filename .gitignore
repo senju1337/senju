@@ -69,7 +69,7 @@ instance/
 .scrapy
 
 # Sphinx documentation
-docs/_build/
+requirements/_build/
 
 # PyBuilder
 .pybuilder/
@@ -170,3 +170,14 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 .python-version
+pyrightconfig.json
+
+# Ollama Local Dir
+ollama
+
+
+# Yes i know
+*.kate-swp
+# sphinx rst files
+docs/source/_modules
+poetry.lock
