@@ -33,6 +33,7 @@ Dependencies
 * Flask: Core web application framework
 * Haiku: Custom class for poem representation and generation
 * StoreManager: Database abstraction for persistence operations
+* datetime: Datetime helper to facilitate Haiku of the day
 
 Implementation
 --------------
@@ -44,6 +45,8 @@ for the complete web interface are defined within this module.
 from __future__ import annotations
 
 import os
+import random
+from datetime import date
 from pathlib import Path
 
 from flask import (Flask, redirect, render_template, request,
@@ -56,6 +59,9 @@ app = Flask(__name__)
 
 store = StoreManager(Path("/tmp/store.db"))
 
+stored_date = date.today()
+random_number = 1
+
 
 @app.route("/")
 def index_view():
@@ -65,7 +71,22 @@ def index_view():
     :return: The index.html template with title "Senju".
     :rtype: flask.Response
     """
-    return render_template("index.html", title="Senju")
+    global stored_date
+    global random_number
+
+    if stored_date != date.today():
+        random_number = random.randint(0, store.count_entries())
+        stored_date = date.today()
+
+    haiku: Haiku | None = store.load_haiku(random_number)
+    if haiku is None:
+        raise KeyError("haiku not found")
+    context: dict = {
+        "haiku": haiku,
+    }
+
+    return render_template("index.html", context=context,
+                           title="Haiku of the day")
 
 
 @app.route("/haiku/")

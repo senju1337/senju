@@ -175,6 +175,15 @@ class StoreManager:
         """
         return self._save(data.__dict__)
 
+    def count_entries(self) -> int:
+        """
+        Query the store how many Haikus are stored.
+
+        :return: Number of stored haikus.
+        :rtype: int
+        """
+        return len(self._db.all())
+
     def get_id_of_latest_haiku(self) -> Optional[int]:
         """
         Get the ID of the most recently added haiku.
