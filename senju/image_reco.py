@@ -1,6 +1,6 @@
 """
 Senju Image Recognition Module
-=============================
+==============================
 
 A module providing image description generation capabilities for the Senju
 haiku application.
@@ -31,7 +31,7 @@ Dependencies
 * transformers: Hugging Face's library providing access to pre-trained models
 
 Implementation Details
----------------------
+----------------------
 The module initializes a BLIP model (Bootstrapped Language-Image Pre-training)
 which can understand visual content and generate natural language descriptions.
 The implementation handles image loading, preprocessing, model inference,

@@ -109,7 +109,7 @@ class Haiku:
         :rtype: Haiku
 
         :raises: Exception if took the llm too many tries to write a fitting
-        haiku or JSONDecodeError if working with JSON failed
+            haiku or JSONDecodeError if working with JSON failed
         """
         ai_gen_request = {
             "model": "haiku",
