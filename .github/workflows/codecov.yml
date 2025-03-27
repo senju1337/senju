@@ -1,15 +1,14 @@
-name: CI  # Name of the workflow
+name: Code Coverage
 
 on:
   push:
     branches:
       - master
       - devel
-      
 
 jobs:
-  test:  # Defines a job called "test"
-    runs-on: ubuntu-latest  # The job runs on the latest Ubuntu runner
+  test: # Defines a job called "test"
+    runs-on: ubuntu-latest # The job runs on the latest Ubuntu runner
 
     steps:
       - name: Checkout Repository
@@ -18,7 +17,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: "3.10"
       - name: Poetry
         run: pip install poetry
 
@@ -28,7 +27,7 @@ jobs:
       - name: Run tests with coverage
         run: poetry run coverage run -m pytest
 
-      - name: Generate Coverage Report  # Ensure creation of coverage.xml
+      - name: Generate Coverage Report # Ensure creation of coverage.xml
         run: poetry run coverage xml
 
       - name: Upload coverage to Codecov
