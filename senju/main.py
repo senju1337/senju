@@ -218,3 +218,17 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static/img'),
                                'favicon.ico',
                                mimetype='image/vnd.microsoft.icon')
+
+
+@app.route('/info')
+def info_view():
+    """
+    Render the info page.
+
+    :return: The info.html template with title "Info".
+    :rtype: flask.Response
+    """
+    return render_template(
+        "info.html",
+        title="Info"
+    )

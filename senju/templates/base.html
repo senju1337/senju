@@ -49,9 +49,10 @@
    {% if request.endpoint == 'scan_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
 									Image scanning
 								</a>
-								<a href="#"
-									class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-									Information
+								<a href="{{ url_for('info_view') }}"
+									class="rounded-md px-3 py-2 text-sm font-medium
+   {% if request.endpoint == 'info_view' %} bg-gray-900 text-white {% else %} text-gray-300 hover:bg-gray-700 hover:text-white {% endif %}">
+									Info
 								</a>
 							</div>
 						</div>
