@@ -1,0 +1,36 @@
+name: CI  # Name of the workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:  # Defines a job called "test"
+    runs-on: ubuntu-latest  # The job runs on the latest Ubuntu runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Poetry
+        run: pip install poetry
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests with coverage
+        run: poetry run coverage run -m pytest
+
+      - name: Generate Coverage Report  # Ensure creation of coverage.xml
+        run: poetry run coverage xml
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./coverage.xml
