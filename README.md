@@ -53,6 +53,9 @@ cd senju
 docker compose up
 ```
 
+Docker desktop users on windows might need to change the line seperator from CRLF to LF of the file
+```entrypoint.sh```
+
 ### 📋 Dependencies
 
 - Python
