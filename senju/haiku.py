@@ -16,8 +16,7 @@ Classes
 -------
 Haiku
     A dataclass representation of a haiku poem, providing structure
-for storage,
-    manipulation and serialization of poem data.
+    for storage, manipulation and serialization of poem data.
 
     **Methods**:
 
