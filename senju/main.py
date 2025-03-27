@@ -79,9 +79,11 @@ def haiku_index_view():
     :raises KeyError: If no haikus exist in the store yet.
     """
     haiku_id: int | None = store.get_id_of_latest_haiku()
-    if haiku_id is None:
+    haiku_default = haiku_id is None
+    if haiku_default:
         haiku_id = 0
-    return redirect(url_for("haiku_view", haiku_id=haiku_id, is_default=1))
+    return redirect(url_for("haiku_view", haiku_id=haiku_id,
+                            is_default=1 if haiku_default else 0))
 
 
 @app.route("/haiku/<int:haiku_id>")
