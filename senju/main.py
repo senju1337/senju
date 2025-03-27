@@ -171,7 +171,8 @@ def image_recognition():
     """
     generate a description of an image
 
-    :return: json
+    :return: json formatted description
+    :rtype: json
     """
     # note that the classifier is a singleton
     if 'image' not in request.files:
