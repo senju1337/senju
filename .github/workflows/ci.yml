@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+      - devel
+      
 
 jobs:
   test:  # Defines a job called "test"
