@@ -39,7 +39,7 @@ Senju (千手, "thousand hands") is a web service for haiku poetry generation an
 
 - **🎏 AI-Powered Haiku Generation**: Create beautiful three-line haiku poetry from text prompts
 - **🖼️ Image-to-Haiku**: Turn uploaded images into poetic haiku (experimental)
-- **🔍 Browse Existing Haiku**: Gallery view of previously generated poetry
+- **🔍 Display Haiku**: View your previously generated haiku
 - **💾 Persistent Storage**: All generated haiku are stored for future retrieval
 - **🖥️ Web Interface**: Clean, efficient, minimalist user experience for human interaction
 - **👂 Accessibility**: Text-to-speech integration for haikus
