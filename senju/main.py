@@ -47,7 +47,6 @@ from __future__ import annotations
 import os
 import random
 from datetime import date
-from pathlib import Path
 
 from flask import (Flask, redirect, render_template, request,
                    send_from_directory, url_for)
