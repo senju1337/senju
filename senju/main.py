@@ -58,7 +58,7 @@ from senju.store_manager import StoreManager
 
 app = Flask(__name__)
 
-store = StoreManager(Path("/tmp/store.db"))
+store = StoreManager()
 
 stored_date = date.today()
 random_number = 1
@@ -135,7 +135,7 @@ def haiku_view(haiku_id):
     return render_template(
         "haiku.html",
         context=context,
-        title="Haiku of the Day")
+        title="Your Haiku")
 
 
 @app.route("/prompt")
