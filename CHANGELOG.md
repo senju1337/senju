@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.1](https://github.com/senju1337/senju/compare/v0.1.0...v0.1.1) (2025-03-28)
+
+
+### Bug Fixes
+
+* Remove back to home button, set DB Path and change Haiku view title ([d56f35d](https://github.com/senju1337/senju/commit/d56f35d80bbfea6499a120ca71397b18eb5ef7b6))
+* Remove back to home button, set DB Path and change Haiku view title ([de99b55](https://github.com/senju1337/senju/commit/de99b552a40b7d1738ce478c89dc3f4e50383f08))
+* Remove unused import ([f0113f5](https://github.com/senju1337/senju/commit/f0113f5d5dd91c1c1cc6632ec95dc7f3e9cdd3eb))
+
 ## 0.1.0 (2025-03-27)
 
 
