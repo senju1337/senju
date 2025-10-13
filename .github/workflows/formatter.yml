@@ -32,7 +32,7 @@ jobs:
             uses: py-actions/flake8@v2
 
           - name: commit back to repository
-            uses: stefanzweifel/git-auto-commit-action@v5
+            uses: stefanzweifel/git-auto-commit-action@v7
             with:
               # These defaults somehow do not work for me, so I've set them
               # explicitly
